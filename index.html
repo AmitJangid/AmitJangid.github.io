@@ -3,195 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amit Jangid</title>
+    <meta name="description" content="Academic Portfolio of Amit Jangid, PhD - Computational Biophysicist and Quantitative Systems Pharmacologist.">
+    <title>Amit Jangid, PhD | Computational Biophysicist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS STYLES --- */
+        /* --- CSS VARIABLES & RESET --- */
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --bg-color: #f8f9fa;
-            --text-color: #333;
+            --primary: #2c3e50;      /* Dark Blue/Grey */
+            --accent: #2980b9;       /* Bright Blue */
+            --bg-light: #f4f6f7;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
+            color: var(--text-dark);
             margin: 0;
             padding: 0;
+            background-color: var(--white);
         }
 
-        /* Container for centering content */
+        a { text-decoration: none; color: var(--accent); transition: color 0.3s; }
+        a:hover { color: var(--primary); }
+        ul { list-style: none; padding: 0; }
+
+        /* --- LAYOUT --- */
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
-        /* Header / Nav */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* --- HEADER --- */
         header {
+            background-color: var(--white);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
         }
 
-        .logo {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        nav a {
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        
+        .nav-links a {
             margin-left: 20px;
-            text-decoration: none;
-            color: var(--text-color);
+            color: var(--text-dark);
+            font-weight: 500;
         }
+        
+        .nav-links a:hover { color: var(--accent); }
 
-        nav a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Hero Section */
+        /* --- HERO SECTION --- */
         .hero {
             text-align: center;
-            padding: 60px 0;
+            padding: 80px 0;
+            background: var(--bg-light);
         }
 
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            color: var(--primary-color);
+            color: var(--primary);
         }
 
-        .hero p {
+        .hero-subtitle {
             font-size: 1.2rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
+            color: var(--text-light);
+            margin-bottom: 30px;
         }
 
         .btn {
             display: inline-block;
-            background-color: var(--accent-color);
+            background-color: var(--primary);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 5px;
-            text-decoration: none;
             font-weight: bold;
         }
+        .btn:hover { background-color: var(--accent); color: white; }
 
-        /* Sections */
-        section {
-            padding: 40px 0;
+        /* --- ABOUT & SKILLS --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 40px;
         }
 
-        h2 {
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
-            color: var(--primary-color);
+        .skills-tag {
+            display: inline-block;
+            background: #e1ecf4;
+            color: #39739d;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin: 0 5px 5px 0;
         }
 
-        /* Projects List */
-        .project-item {
-            background: white;
+        /* --- PROJECTS/RESEARCH --- */
+        .project-card {
+            background: var(--white);
             border: 1px solid #ddd;
-            padding: 20px;
+            border-radius: 8px;
+            padding: 25px;
             margin-bottom: 20px;
-            border-radius: 5px;
             transition: transform 0.2s;
         }
+        .project-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .project-card h3 { margin-top: 0; color: var(--primary); }
 
-        .project-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        /* --- PUBLICATIONS --- */
+        .pub-item {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent);
         }
+        .pub-title { font-weight: bold; }
+        .pub-journal { font-style: italic; color: var(--text-light); }
 
-        .project-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
+        /* --- CONTACT --- */
+        .contact-list li { margin-bottom: 10px; }
 
-        /* Footer */
+        /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 30px 0;
             font-size: 0.9rem;
-            color: #777;
-            border-top: 1px solid #ddd;
-            margin-top: 40px;
+            color: var(--text-light);
         }
 
-        /* Mobile adjustments */
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-            }
-            nav {
-                margin-top: 15px;
-            }
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            nav { flex-direction: column; }
+            .nav-links { margin-top: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <a href="#" class="logo">[Amit Jangid]</a>
+    <header>
+        <div class="container">
             <nav>
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#" class="logo">Amit Jangid, PhD</a>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#research">Research</a>
+                    <a href="#publications">Publications</a>
+                    <a href="#contact">Contact</a>
+                </div>
             </nav>
-        </header>
+        </div>
+    </header>
 
-        <div class="hero">
-            <h1>Hello, I'm [Amit Jangid]</h1>
-            <p>I am a [Job Title] specializing in [Core Skill A] and [Core Skill B]. I build tools that solve [Specific Problem].</p>
+    <div class="hero">
+        <div class="container">
+            <h1>Amit Jangid, PhD</h1>
+            <p class="hero-subtitle">
+                Postdoctoral Fellow at The Hebrew University of Jerusalem<br>
+                Quantitative Systems Pharmacologist & Computational Biophysicist
+            </p>
             <a href="mailto:amitjangid050@gmail.com" class="btn">Get in Touch</a>
         </div>
-
-        <section id="about">
-            <h2>About Me</h2>
-            <p>
-                Write a short paragraph here. Example: With a background in [Field], I focus on creating efficient solutions for complex problems.
-                I am currently working on [Current Focus].
-            </p>
-        </section>
-
-        <section id="projects">
-            <h2>Selected Work</h2>
-            
-            <div class="project-item">
-                <div class="project-title">Project Name 1</div>
-                <p>A one-sentence description of what this project achieved. Mention the tools used (e.g., Python, SQL).</p>
-                <a href="#">View Code &rarr;</a>
-            </div>
-
-            <div class="project-item">
-                <div class="project-title">Project Name 2</div>
-                <p>Description of another project. Focus on the impact or result.</p>
-                <a href="#">Read Case Study &rarr;</a>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>I am open to collaborations and new opportunities.</p>
-            <ul>
-                <li>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></li>
-                <li>LinkedIn: <a href="#">linkedin.com/in/yourname</a></li>
-                <li>GitHub: <a href="#">github.com/yourname</a></li>
-            </ul>
-        </section>
-
-        <footer>
-            &copy; 2024 [Your Name]. Built with HTML & CSS.
-        </footer>
     </div>
+
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div>
+                    <h2>About Me</h2>
+                    <p>
+                        I specialize in the application of mathematical and computational modeling to solve complex biological problems. 
+                        My work employs stochastic simulations, bifurcation analysis, large-scale data analysis, and network theory to investigate 
+                        population genetics and regulatory networks.
+                    </p>
+                    <p>
+                        I obtained my PhD in Computational Biology and Bioinformatics from Jawaharlal Nehru University, New Delhi. 
+                        Currently, I am a Postdoctoral Fellow at the Hebrew University of Jerusalem, focusing on the evolution of 
+                        self-incompatibility systems in plants.
+                    </p>
+                </div>
+                <div>
+                    <h3>Technical Skills</h3>
+                    <div class="skills-block">
+                        <span class="skills-tag">Python (Advanced)</span>
+                        <span class="skills-tag">C++</span>
+                        <span class="skills-tag">Matplotlib/Scipy/Pandas</span>
+                        <span class="skills-tag">PyTorch/TensorFlow</span>
+                        <span class="skills-tag">Stochastic Simulations</span>
+                        <span class="skills-tag">Linux/Ubuntu</span>
+                    </div>
+
+                    <h3>Awards</h3>
+                    <ul style="margin-top: 10px; font-size: 0.9rem;">
+                        <li>🏆 Lady Davis Fellowship (2025-2026)</li>
+                        <li>🏆 Golda Meir Postdoctoral Fellowship (2024-2025)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="container">
+            <h2>Current Research</h2>
+            
+            <div class="project-card">
+                <h3>Evolution of Plant Self-Incompatibility</h3>
+                <p>
+                    Studying the S-RNase-based self-incompatibility in the collaborative non-self recognition (CNSR) system.
+                    Using theoretical frameworks to understand how promiscuous molecular recognition and multiple distinct partners per protein 
+                    drive the spontaneous self-organization of populations into distinct mating classes.
+                </p>
+            </div>
+
+            <div class="project-card">
+                <h3>Regulatory Networks & Cell Fate</h3>
+                <p>
+                    Modeling noise-regulated cell fate decisions and the dynamics of coupled NF-KB oscillators. 
+                    Previous work includes constructing stress-driven minimal models of the p53 regulatory network to identify 
+                    pathological states for therapeutic intervention.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="publications" style="background-color: var(--bg-light);">
+        <div class="container">
+            <h2>Selected Publications</h2>
+            
+            <div class="pub-item">
+                <div class="pub-title">The role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility in plants.</div>
+                <div class="pub-journal">K. Erez*, Amit Jangid*, O. N. Feldheim and T. Friedlander. Nat. Commun. 15(1), 4864 (2024).</div>
+            </div>
+
+            <div class="pub-item">
+                <div class="pub-title">Reconciling conflicting selection pressures in the plant collaborative non-self recognition self-incompatibility system.</div>
+                <div class="pub-journal">Amit Jangid, K. Erez, O. N. Feldheim and T. Friedlander. Phys. Rev. Res. 7(3), 033232 (2025).</div>
+            </div>
+
+            <div class="pub-item">
+                <div class="pub-title">A stochastic model of homeostasis: the roles of noise and nuclear positioning in deciding cell fate.</div>
+                <div class="pub-journal">Amit Jangid*, S. Selvarajan and R. Ramaswamy. iScience 24(10), 103199 (2021).</div>
+            </div>
+
+            <div class="pub-item">
+                <div class="pub-title">Complex p53 dynamics regulated by miR-125b in cellular responses to reactive oxidative stress and DNA damage.</div>
+                <div class="pub-journal">M. Z. Malik... Amit Jangid... et al. Brief. Bioinform. 26(1), bbae706 (2025).</div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="https://scholar.google.com/" target="_blank">View Google Scholar Profile &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Contact</h2>
+            <div class="about-grid">
+                <div>
+                    <p>I am open to collaborations in quantitative systems biology and computational modeling.</p>
+                    <ul class="contact-list">
+                        <li><strong>Email:</strong> <a href="mailto:amitjangid050@gmail.com">amitjangid050@gmail.com</a></li>
+                        <li><strong>Location:</strong> The Robert H Smith Faculty of Agriculture, Food and Environment, Hebrew University of Jerusalem, Rehovot, Israel</li>
+                    </ul>
+                </div>
+                <div>
+                   <a href="#" class="btn" style="background-color: #0077b5;">LinkedIn</a>
+                   <a href="#" class="btn" style="background-color: #333;">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            &copy; 2026 Amit Jangid. Built with HTML & CSS.
+        </div>
+    </footer>
 
 </body>
 </html>
