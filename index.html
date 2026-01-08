@@ -9,9 +9,10 @@
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
-            --primary: #203a43;      /* Deep Slate */
-            --accent: #2c5364;       /* Lighter Slate */
-            --highlight: #0f4c81;    /* Academic Blue */
+            --primary: #203a43;
+            --accent: #2c5364;
+            --highlight: #0f4c81;
+            --gold: #d4af37;
             --bg-light: #f8f9fa;
             --text-dark: #2c3e50;
             --text-light: #5f6c7b;
@@ -46,7 +47,7 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* --- HEADER & NAV --- */
+        /* --- HEADER --- */
         header {
             background-color: var(--white);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -73,30 +74,16 @@
         }
         .nav-links a:hover { color: var(--highlight); }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO --- */
         .hero {
             text-align: center;
             padding: 100px 0 60px 0;
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
         }
 
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-light);
-            margin-bottom: 25px;
-            font-weight: 300;
-        }
-
-        .contact-links a {
-            margin: 0 10px;
-            font-weight: 500;
-        }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; color: var(--primary); }
+        .hero-subtitle { font-size: 1.3rem; color: var(--text-light); margin-bottom: 25px; font-weight: 300; }
+        .contact-links a { margin: 0 10px; font-weight: 500; }
 
         /* --- SECTIONS --- */
         .section-title {
@@ -108,21 +95,17 @@
             padding-left: 15px;
         }
 
-        .about-text { font-size: 1.05rem; text-align: justify; }
+        h3 { color: var(--accent); margin-top: 30px; margin-bottom: 15px; }
+        h4 { color: var(--text-light); font-weight: 500; margin-bottom: 10px; }
 
-        .skills-container { margin-top: 30px; }
-        .skill-tag {
-            display: inline-block;
-            background: #eef2f5;
-            color: var(--highlight);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            margin: 0 5px 8px 0;
-            border: 1px solid #dae1e7;
-        }
+        /* --- RESEARCH SUMMARIES --- */
+        .summary-block { margin-bottom: 40px; }
+        .summary-block h3 { border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .research-topic { margin-bottom: 25px; }
+        .research-topic h4 { color: var(--primary); font-weight: bold; margin-bottom: 5px; }
+        .research-topic p { margin-top: 0; text-align: justify; }
 
-        /* --- TIMELINE (Experience) --- */
+        /* --- CV / TIMELINE --- */
         .timeline-item {
             display: grid;
             grid-template-columns: 150px 1fr;
@@ -136,28 +119,8 @@
             padding-right: 20px;
             border-right: 2px solid var(--border);
         }
-        .timeline-content h3 { margin: 0 0 5px 0; color: var(--primary); }
-        .timeline-content h4 { margin: 0 0 10px 0; font-weight: 400; color: var(--text-light); font-style: italic; }
 
-        /* --- PUBLICATIONS --- */
-        .pub-list { counter-reset: pub-counter; }
-        .pub-item {
-            margin-bottom: 25px;
-            padding-left: 10px;
-            position: relative;
-        }
-        .pub-item::before {
-            content: counter(pub-counter) ". ";
-            counter-increment: pub-counter;
-            font-weight: bold;
-            color: var(--highlight);
-            margin-right: 5px;
-        }
-        .pub-title { font-weight: 700; font-size: 1.05rem; color: var(--primary); display: inline; }
-        .pub-meta { color: var(--text-dark); margin: 5px 0 0 20px; display: block;}
-        .pub-journal { font-style: italic; color: var(--highlight); margin-left: 20px; display: block; margin-top: 2px;}
-
-        /* --- AWARDS --- */
+        /* --- ENGAGEMENT & AWARDS --- */
         .list-grid { display: grid; gap: 15px; }
         .list-item {
             background: var(--bg-light);
@@ -165,7 +128,23 @@
             border-radius: 6px;
             border-left: 4px solid var(--accent);
         }
-        .list-item strong { color: var(--primary); }
+        /* Highlighted Awards */
+        .highlight-award {
+            background-color: #fffcf0;
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 2px 5px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- PUBLICATIONS --- */
+        .pub-list { counter-reset: pub-counter; }
+        .pub-item { margin-bottom: 25px; padding-left: 10px; position: relative; }
+        .pub-item::before {
+            content: counter(pub-counter) ". ";
+            counter-increment: pub-counter;
+            font-weight: bold;
+            color: var(--highlight);
+            margin-right: 5px;
+        }
 
         /* --- FOOTER --- */
         footer {
@@ -180,7 +159,6 @@
             .nav-links { display: none; }
             .timeline-item { grid-template-columns: 1fr; gap: 5px; }
             .timeline-date { text-align: left; border-right: none; padding-bottom: 5px; color: var(--highlight); }
-            .pub-meta, .pub-journal { margin-left: 0; }
         }
     </style>
 </head>
@@ -192,10 +170,11 @@
                 <a href="#" class="logo">Amit Jangid, PhD</a>
                 <div class="nav-links">
                     <a href="#about">About</a>
-                    <a href="#experience">CV</a>
+                    <a href="#research">Research</a>
+                    <a href="#cv">CV</a>
                     <a href="#publications">Publications</a>
+                    <a href="#engagement">Engagement</a>
                     <a href="#awards">Awards</a>
-                    <a href="#talks">Talks</a>
                 </div>
             </nav>
         </div>
@@ -211,87 +190,156 @@
             <div class="contact-links">
                 <a href="mailto:amitjangid050@gmail.com">amitjangid050@gmail.com</a> |
                 <a href="https://scholar.google.com/" target="_blank">Google Scholar</a> |
-                <a href="#" target="_blank">LinkedIn</a> |
-                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">GitHub</a> |
+                <a href="#" target="_blank">LinkedIn</a>
             </div>
         </div>
     </section>
 
-    <section id="about">
+    <section id="research">
         <div class="container">
-            <h2 class="section-title">Research Profile</h2>
-            <div class="about-text">
-                <p>
-                    I specialize in the application of mathematical and computational modeling to solve complex biological problems.
-                    My work employs stochastic simulations, bifurcation analysis, large-scale data analysis, and network theory[cite: 4, 5].
-                </p>
-                <p>
-                    My current research investigates population genetics and the evolution of small protein regulatory networks in 
-                    plant self-incompatibility systems. I also have extensive experience modeling regulatory networks 
-                    in disease contexts, cell fate decisions, and the dynamics of NF-KB oscillators[cite: 5].
-                </p>
+            <h2 class="section-title">Research Summaries</h2>
+
+            <div class="summary-block">
+                <h3>Postdoctoral Research</h3>
+                
+                <div class="research-topic">
+                    <h4>Evolution of small genetic regulatory networks & CNSR system</h4>
+                    <p>
+                        We study how biological networks evolve and expand in the context of the plant collaborative-non-self recognition self-incompatibility system.
+                        Self-incompatibility evolved to avoid self-fertilization among hermaphroditic plants. We constructed a novel theoretical framework 
+                        that crucially affords interaction promiscuity and multiple distinct partners per protein. We demonstrated spontaneous 
+                        self-organization of the population into distinct 'classes' with full between-class compatibility and a dynamic long-term 
+                        balance between class emergence and decay.
+                    </p>
+                </div>
+
+                <div class="research-topic">
+                    <h4>Reconciling conflicting selection pressures</h4>
+                    <p>
+                        Complex biological systems should often reconcile conflicting selection pressures. We studied how such pressures shape the evolution 
+                        of the self-incompatibility system in plants. We found that selection exerts asymmetric responses of amino acid frequencies, 
+                        affecting female proteins considerably, but hardly the male. Using large deviations theory, we well-approximated the simulated 
+                        frequencies and found agreement with genomic data.
+                    </p>
+                </div>
+
+                <div class="research-topic">
+                    <h4>A phase transition: self-compatibility vs self-incompatibility</h4>
+                    <p>
+                        Despite the ubiquity of mixed-mating, its evolutionary sources and dynamic stability remain elusive. Using population-level 
+                        stochastic simulations, we modeled the effects of promiscuity of molecular recognition and inbreeding depression. 
+                        We revealed a phase diagram with three regimes: complete self-incompatibility (SI), complete self-compatibility (SC), 
+                        and a mixture combining both. This mixed mode, described here for the first time, exhibits vigorous, non-decaying fluctuations.
+                    </p>
+                </div>
             </div>
-            <div class="skills-container">
-                <strong>Technical Skills:</strong><br>
-                <span class="skill-tag">Python (Advanced)</span>
-                <span class="skill-tag">C++</span>
-                <span class="skill-tag">Django</span>
-                <span class="skill-tag">NumPy/Pandas/Scipy</span>
-                <span class="skill-tag">PyTorch/TensorFlow</span>
-                <span class="skill-tag">Stochastic Simulations</span>
-                <span class="skill-tag">Ubuntu & macOS</span>
+
+            <div class="summary-block">
+                <h3>PhD Research</h3>
+
+                <div class="research-topic">
+                    <h4>Modeling IFN-y and IL-4 mediated networks in Atopic Dermatitis</h4>
+                    <p>
+                        We modeled the networks of Th1, Th2, dendritic, and keratinocyte cells mediated by key cytokines (IFN-y and IL-4) to study Atopic Dermatitis.
+                        From sensitivity analysis, we observed that transitions between acute and chronic states may occur through smooth or abrupt paths.
+                        Depending on the nature of the cytokines, there is a possibility to drive the system from a bi-stable phase to acute by giving external stimulus.
+                    </p>
+                </div>
+
+                <div class="research-topic">
+                    <h4>Stress driven minimal p53 regulatory pathway</h4>
+                    <p>
+                        We constructed a stress-driven minimal model of the p53 regulatory network. Depending on the nature of the external stress, 
+                        four distinct dynamical states of p53 were observed: active, apoptosis, pre-malignant, and cancer states. 
+                        We found that transitions from cancer to any other state are irreversible if stress is either oscillatory or constant.
+                    </p>
+                </div>
+
+                <div class="research-topic">
+                    <h4>Nucleus and noise regulating cell fate decision</h4>
+                    <p>
+                        We built a population-based stochastic cellular model starting from a single stem cell. The model consists of nucleus position, 
+                        gene-regulatory network, and stochastic segregation of transcription factors. The model shows that the nucleus's position 
+                        towards the basal leads to more asymmetric division, while introducing noise in the nucleus position leads to more differentiated cells.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="experience" style="background-color: var(--bg-light);">
+    <section id="cv" style="background-color: var(--bg-light);">
         <div class="container">
-            <h2 class="section-title">Experience & Education</h2>
+            <h2 class="section-title">Curriculum Vitae</h2>
 
+            <h3>Research Experience</h3>
             <div class="timeline-item">
                 <div class="timeline-date">Apr 2022 - Present</div>
-                <div class="timeline-content">
-                    <h3>Postdoctoral Fellow</h3>
-                    <h4>Hebrew University of Jerusalem, Rehovot, Israel</h4>
-                    <p>Evolution of S-RNase-based self-incompatibility in the collaborative non-self recognition (CNSR) system [cite: 7-9].</p>
+                <div>
+                    <strong>Postdoctoral Fellow</strong><br>
+                    Hebrew University of Jerusalem, Rehovot, Israel
                 </div>
             </div>
-
             <div class="timeline-item">
                 <div class="timeline-date">Jun 2018 - Dec 2021</div>
-                <div class="timeline-content">
-                    <h3>Senior Research Fellow (SRF)</h3>
-                    <h4>Jawaharlal Nehru University, New Delhi</h4>
-                    <p>Noise-regulated cell fate decision and dynamics of coupled NF-KB oscillators [cite: 11-13].</p>
+                <div>
+                    <strong>Senior Research Fellow (SRF)</strong><br>
+                    Jawaharlal Nehru University, New Delhi
                 </div>
             </div>
-
             <div class="timeline-item">
                 <div class="timeline-date">Jun 2016 - May 2018</div>
-                <div class="timeline-content">
-                    <h3>Junior Research Fellow (JRF)</h3>
-                    <h4>Jawaharlal Nehru University, New Delhi</h4>
-                    <p>Modeling stress-driven p53 regulatory network and cytokines-regulated skin disease [cite: 14-16].</p>
+                <div>
+                    <strong>Junior Research Fellow (JRF)</strong><br>
+                    Jawaharlal Nehru University, New Delhi
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Jan 2015 - May 2015</div>
+                <div>
+                    <strong>Master Dissertation</strong><br>
+                    Central University of Rajasthan, Ajmer
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">May 2014 - Jul 2014</div>
+                <div>
+                    <strong>Summer Internship</strong><br>
+                    Jawaharlal Nehru University, New Delhi
                 </div>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid #ddd; margin: 40px 0;">
-
+            <h3>Education</h3>
             <div class="timeline-item">
                 <div class="timeline-date">2016 - 2022</div>
-                <div class="timeline-content">
-                    <h3>PhD in Computational Biology & Bioinformatics</h3>
-                    <h4>Jawaharlal Nehru University, New Delhi</h4>
-                    <p>Thesis: Modeling Molecular and Cellular-level Interactions in Biological Systems [cite: 24-27].</p>
+                <div>
+                    <strong>PhD, Computational Biology and Bioinformatics</strong><br>
+                    Jawaharlal Nehru University, New Delhi<br>
+                    <span style="font-size:0.9rem; color: #666;">Thesis: Modeling Molecular and Cellular-level Interactions in Biological Systems</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2013 - 2015</div>
+                <div>
+                    <strong>M.Sc. Physics</strong><br>
+                    Central University of Rajasthan, Ajmer
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2010 - 2013</div>
+                <div>
+                    <strong>B.Sc. Physics, Chemistry & Mathematics</strong><br>
+                    University of Rajasthan, Jaipur
                 </div>
             </div>
 
-            <div class="timeline-item">
-                <div class="timeline-date">2013 - 2015</div>
-                <div class="timeline-content">
-                    <h3>M.Sc. in Physics</h3>
-                    <h4>Central University of Rajasthan, Ajmer</h4>
-                    <p>CGPA: 7.58/9.0. Focus on Computational Neuroscience and Synchronization [cite: 30-37].</p>
+            <h3>Professional Activities</h3>
+            <div class="list-grid">
+                <div class="list-item">
+                    <strong>Peer Review:</strong> Nature Communications, Briefings in Bioinformatics, Discover Physics, and Plos One.
+                </div>
+                <div class="list-item">
+                    <strong>Organizational:</strong> Co-convenor, Annual Students Symposium-2017, School of Computational and Integrative Sciences, JNU, New Delhi.
                 </div>
             </div>
         </div>
@@ -300,113 +348,107 @@
     <section id="publications">
         <div class="container">
             <h2 class="section-title">Publications</h2>
-            <p style="margin-bottom: 30px; font-style: italic;">* Indicates equal contribution / correspondence</p>
-            
             <div class="pub-list">
                 <div class="pub-item">
-                    <div class="pub-title">Volatile but persistent co-existence of self-compatibility and self-incompatibility in plants.</div>
-                    <span class="pub-meta"><strong>Amit Jangid</strong>, O. N. Feldheim and T. Friedlander.</span>
-                    <span class="pub-journal">bioRxiv (2025).</span>
+                    <strong>Amit Jangid</strong>, O. N. Feldheim and T. Friedlander. Volatile but persistent co-existence of self-compatibility and self-incompatibility in plants. <em>bioRxiv</em> (2025).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">Reconciling conflicting selection pressures in the plant collaborative non-self recognition self-incompatibility system.</div>
-                    <span class="pub-meta"><strong>Amit Jangid</strong>, K. Erez, O. N. Feldheim and T. Friedlander.</span>
-                    <span class="pub-journal">Phys. Rev. Res. 7(3), 033232 (2025).</span>
+                    <strong>Amit Jangid</strong>, K. Erez, O. N. Feldheim and T. Friedlander. Reconciling conflicting selection pressures in the plant collaborative non-self recognition self-incompatibility system. <em>Phys. Rev. Res. 7(3), 033232</em> (2025).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">Complex p53 dynamics regulated by miR-125b in cellular responses to reactive oxidative stress and DNA damage.</div>
-                    <span class="pub-meta">M. Z. Malik, M. Dashti, <strong>Amit Jangid</strong>, A. Channanath, S. E. John, R.K. Brojen Singh, F. Al-Mulla and T. A. Thanaraj.</span>
-                    <span class="pub-journal">Brief. Bioinform. 26(1), bbae706 (2025).</span>
+                    M. Z. Malik, M. Dashti, <strong>Amit Jangid</strong>, A. Channanath, S. E. John, R.K. Brojen Singh, F. Al-Mulla and T. A. Thanaraj. Complex p53 dynamics regulated by miR-125b in cellular responses to reactive oxidative stress and DNA damage. <em>Brief. Bioinform. 26(1), bbae706</em> (2025).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">The role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility in plants.</div>
-                    <span class="pub-meta">K. Erez*, <strong>Amit Jangid*</strong>, O. N. Feldheim and T. Friedlander.</span>
-                    <span class="pub-journal">Nat. Commun. 15(1), 4864 (2024).</span>
+                    K. Erez*, <strong>Amit Jangid*</strong>, O. N. Feldheim and T. Friedlander. The role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility in plants. <em>Nat. Commun. 15(1), 4864</em> (2024).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">Modeling of indirect cell-cell interaction networks mediated by IFN-gamma/IL-4 cytokine involved in atopic dermatitis.</div>
-                    <span class="pub-meta">R. Pandey, <strong>Amit Jangid</strong>, R. G. Vinjamuri and R. Ramaswamy.</span>
-                    <span class="pub-journal">J. Theor. Biol. 556, 111291 (2023).</span>
+                    R. Pandey, <strong>Amit Jangid</strong>, R. G. Vinjamuri and R. Ramaswamy. Modeling of indirect cell-cell interaction networks mediated by IFN-gamma/IL-4 cytokine involved in atopic dermatitis. <em>J. Theor. Biol. 556, 111291</em> (2023).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">A stochastic model of homeostasis: the roles of noise and nuclear positioning in deciding cell fate.</div>
-                    <span class="pub-meta"><strong>Amit Jangid*</strong>, S. Selvarajan and R. Ramaswamy.</span>
-                    <span class="pub-journal">iScience 24(10), 103199 (2021).</span>
+                    <strong>Amit Jangid*</strong>, S. Selvarajan and R. Ramaswamy. A stochastic model of homeostasis: the roles of noise and nuclear positioning in deciding cell fate. <em>iScience 24(10), 103199</em> (2021).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">Transition and identification of pathological states in p53 dynamics for therapeutic intervention.</div>
-                    <span class="pub-meta"><strong>Amit Jangid</strong>, M. Z. Malik, R. Ramaswamy and R. K. Brojen Singh.</span>
-                    <span class="pub-journal">Sci. Rep. 11(1), 2349 (2021).</span>
+                    <strong>Amit Jangid</strong>, M. Z. Malik, R. Ramaswamy and R. K. Brojen Singh. Transition and identification of pathological states in p53 dynamics for therapeutic intervention. <em>Sci. Rep. 11(1), 2349</em> (2021).
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">Collective dynamics of NF-kB ensemble in coupled diffusive environment of TNF-a.</div>
-                    <span class="pub-meta"><strong>Amit Jangid*</strong>, J. Singha and R. Ramaswamy.</span>
-                    <span class="pub-journal">(in preparation).</span>
+                    <strong>Amit Jangid*</strong>, J. Singha and R. Ramaswamy. Collective dynamics of NF-kB ensemble in coupled diffusive environment of TNF-a. <em>(in preparation)</em>.
                 </div>
-
                 <div class="pub-item">
-                    <div class="pub-title">Dynamics of different biological oscillators coupled via delta notch signal.</div>
-                    <span class="pub-meta"><strong>Amit Jangid</strong> and U. Singh.</span>
-                    <span class="pub-journal">(in preparation).</span>
+                    <strong>Amit Jangid</strong> and U. Singh. Dynamics of different biological oscillators coupled via delta notch signal. <em>(in preparation)</em>.
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="awards" style="background-color: var(--bg-light);">
-        <div class="container">
-            <h2 class="section-title">Awards & Fellowships</h2>
-            <div class="list-grid">
-                <div class="list-item"><strong>Lady Davis Fellowship</strong> (2025-2026)<br>Hebrew University of Jerusalem</div>
-                <div class="list-item"><strong>Golda Meir Postdoctoral Fellowship</strong> (2024-2025)<br>Hebrew University of Jerusalem</div>
-                <div class="list-item"><strong>Postdoctoral Fellowship</strong> (2022-Present)<br>Hebrew University of Jerusalem</div>
-                <div class="list-item"><strong>UGC-SRF Scholarship</strong> (2018-2020)</div>
-                <div class="list-item"><strong>Best Presentation Award</strong> (2017)<br>Annual Students Symposium, JNU</div>
-                <div class="list-item"><strong>First Ranker in Pre-PhD Examination</strong> (2016)<br>JNU, New Delhi</div>
-                <div class="list-item"><strong>UGC-JRF Scholarship</strong> (2016-2017)</div>
-                <div class="list-item"><strong>National Exams Qualified:</strong><br>GATE 2018 (Rank 1274), GATE 2016 (Rank 1603), CSIR-UGC NET JRF (Rank 157), GATE 2015 (Rank 397), CSIR-UGC NET LS (Rank 133)</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="talks">
+    <section id="engagement" style="background-color: var(--bg-light);">
         <div class="container">
             <h2 class="section-title">Academic Engagement</h2>
             
-            <h3>Talks & Presentations</h3>
-            <ul style="margin-top: 20px; line-height: 1.8;">
-                <li>• <strong>EMBO | EMBL Symposium (2025), Heidelberg:</strong> Flash talk & poster on phase transition between plant mating modes.</li>
-                <li>• <strong>ISEB (2024), Jerusalem:</strong> Talk on Plant collaborative non-self recognition SI systems.</li>
-                <li>• <strong>BioSoft Day Symposium #5 (2024), Tel Aviv:</strong> Flash talk on Phase transition and evolutionary emergence of SI.</li>
-                <li>• <strong>SMEEB (2024), L'Aquila, Italy:</strong> The role of promiscuous molecular recognition in SI evolution.</li>
-                <li>• <strong>ISEB (2023), Haifa:</strong> Talk on toy models for protein-protein interaction networks.</li>
-                <li>• <strong>ECMTB (2022), Heidelberg:</strong> Talk on Stochastic approach to cell fate decision.</li>
-                <li>• <strong>CNSD (2019), IIT-Kanpur:</strong> Talk on Cancer dynamics and therapeutic intervention.</li>
-                <li>• <strong>Symposium on Complex Biodynamics (2018), Singapore:</strong> Collective behavior of coupled NF-KB oscillators.</li>
-                <li>• <strong>ICTP (2018), Trieste, Italy:</strong> Networks and sub-networks in atopic dermatitis.</li>
-            </ul>
+            <h3>Talks</h3>
+            <div class="list-grid">
+                <div class="list-item">
+                    <strong>'Collective behavior of locally coupled NF-KB oscillators'</strong><br>
+                    3rd Symposium on Complex Biodynamics & Networks, Matrix Biopolis Singapore (Dec 2018).
+                </div>
+            </div>
 
-            <h3 style="margin-top: 40px;">Teaching & Mentoring</h3>
-            <p>Guided bachelors, masters, and research assistants during PhD and Postdoc:</p>
-            <ul>
-                <li>• Two BTech interns (Amity University Jaipur & Noida).</li>
-                <li>• Two MSc students (IIT, New Delhi).</li>
-                <li>• Two MSc students and one research assistant (Hebrew University of Jerusalem).</li>
-            </ul>
+            <h3>Posters & Flash Talks</h3>
+            <div class="list-grid">
+                <div class="list-item">Flash talk & poster: 'A phase transition between plant mating modes', EMBO | EMBL Symposium, Heidelberg (2025).</div>
+                <div class="list-item">Talk: 'Plant collaborative non-self recognition self-incompatibility systems', ISEB, Hebrew University (2024).</div>
+                <div class="list-item">Flash talk & poster: 'Phase transition and evolutionary emergence of self-incompatibility', BioSoft Day, Tel Aviv (2024).</div>
+                <div class="list-item">'The role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility', SMEEB, L'Aquila, Italy (2024).</div>
+                <div class="list-item">'To interact or not to interact: a toy model for protein-protein interaction', ISEB, Haifa (2023).</div>
+                <div class="list-item">'A stochastic approach to cell fate decision and homeostasis', ECMTB, Heidelberg (2022).</div>
+                <div class="list-item">'Cancer dynamics: Identification of states for therapeutic intervention', CNSD, IIT-Kanpur (2019).</div>
+                <div class="list-item">'Effect of noise in repeated games', CNSD, JNU New Delhi (2018).</div>
+                <div class="list-item">'Networks and sub-networks in atopic dermatitis', ICTP, Trieste, Italy (2018).</div>
+            </div>
+
+            <h3>Schools & Conferences</h3>
+            <div class="list-grid">
+                <div class="list-item">'Models & Theory in Ecology & Evolution', The Steinhardt Museum, Israel (2025).</div>
+                <div class="list-item">'Populations genomics and systems biology of rapid evolution', Ben-Gurion University (2022).</div>
+                <div class="list-item">'Spring college on the physics of complex systems', ICTP, Trieste, Italy (2018).</div>
+                <div class="list-item">'Winter school on quantitative systems biology', ICTS Bangalore (2017).</div>
+                <div class="list-item">'Econophys-2017 & Asia pacific econophysics conference', JNU & Delhi University (2017).</div>
+                <div class="list-item">'Non-linear dynamics with applications in physics...', Central University of Rajasthan (2014).</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="awards">
+        <div class="container">
+            <h2 class="section-title">Awards & Honors</h2>
+            <div class="list-grid">
+                <div class="list-item highlight-award">
+                    <strong>Lady Davis Fellowship</strong> (2025-2026)<br>
+                    Hebrew University of Jerusalem, Israel.
+                </div>
+                <div class="list-item highlight-award">
+                    <strong>Golda Meir Postdoctoral Fellowship</strong> (2024-2025)<br>
+                    Hebrew University of Jerusalem, Israel.
+                </div>
+                <div class="list-item highlight-award">
+                    <strong>UGC-JRF (Junior Research Fellow) Scholarship</strong> (2016-2017)<br>
+                    Rank 157, Percentile >99.0.
+                </div>
+
+                <div class="list-item"><strong>Postdoctoral Fellowship</strong> (2022-Present), Hebrew University of Jerusalem.</div>
+                <div class="list-item"><strong>UGC-SRF Scholarship</strong> (2018-2020).</div>
+                <div class="list-item"><strong>Best Presentation Award</strong>, Annual Students Symposium-2017, JNU.</div>
+                <div class="list-item"><strong>First Ranker</strong> in Pre-PhD examination (2016).</div>
+                <div class="list-item"><strong>GATE-2018 Physics</strong>, Rank 1274.</div>
+                <div class="list-item"><strong>GATE-2016 Physics</strong>, Rank 1603.</div>
+                <div class="list-item"><strong>GATE-2015 Physics</strong>, Rank 397.</div>
+                <div class="list-item"><strong>CSIR-UGC NET for LS in Physics</strong> (2014), Rank 133.</div>
+            </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            &copy; 2026 Amit Jangid. <br>
-            The Robert H Smith Faculty of Agriculture, Food and Environment, Rehovot, Israel.
+            &copy; 2026 Amit Jangid. Built with HTML & CSS.
         </div>
     </footer>
 
