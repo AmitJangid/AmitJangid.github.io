@@ -1,1 +1,1 @@
-# amit-jangid.github.io
+# AmitJangid.github.io
