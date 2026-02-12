@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Academic Portfolio of Amit Jangid, PhD - Computational Biophysicist and Quantitative Systems Pharmacologist.">
-    <title>Amit Jangid, PhD | Computational Biophysicist</title>
+    <title>Amit Jangid, PhD</title>
+    <!-- <title>Amit Jangid, PhD | Computational Biophysicist</title> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script defer src="scripts/scripts_data.js"></script>
+    <!-- Prism Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
@@ -20,20 +29,43 @@
             --border: #e9ecef;
         }
 
-        html { scroll-behavior: smooth; }
-
         body {
             font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
+            line-height: 1.5;
             color: var(--text-dark);
             margin: 0;
             padding: 0;
             background-color: var(--white);
+            overflow-y: scroll;
+            text-align: justify;
         }
 
-        a { text-decoration: none; color: var(--highlight); transition: color 0.2s; }
-        a:hover { color: var(--primary); text-decoration: underline; }
-        ul { list-style: none; padding: 0; }
+        a {
+            text-decoration: none;
+            color: var(--highlight);
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ol {
+            padding-left: 25px;
+            list-style-position: outside;
+            margin: 0 0 20px 0;
+        }
+
+        ol li::marker {
+            font-weight: bold;
+            color: var(--primary);
+        }
 
         /* --- LAYOUT --- */
         .container {
@@ -42,18 +74,18 @@
             padding: 0 20px;
         }
 
-        section {
-            padding: 70px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        /* --- HEADER --- */
+        /* --- HEADER & NAV --- */
         header {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background-color: #f4f4f4;
+            /* Light grey background */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 1000;
+            /* NEW: Constrain width and center */
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 8px;
         }
 
         nav {
@@ -63,55 +95,187 @@
             padding: 15px 0;
         }
 
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary); text-decoration: none !important; }
-        
-        .nav-links { display: flex; gap: 20px; }
-        .nav-links a {
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            padding-left: 25px;
+            /* Flush to left */
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            margin-left: 0px;
+            /* Spacing between logo and first button */
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
             color: var(--text-dark);
             font-weight: 500;
             font-size: 0.95rem;
-            text-decoration: none !important;
+            padding: 5px 10px;
+            transition: all 0.2s;
         }
-        .nav-links a:hover { color: var(--highlight); }
 
-        /* --- HERO --- */
+        .nav-btn:last-child {
+            padding-right: 0;
+            /* Flush to right */
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: var(--highlight);
+            background-color: var(--bg-light);
+            border-radius: 4px;
+        }
+
+        /* --- HERO ---
         .hero {
             text-align: center;
-            padding: 100px 0 60px 0;
+            padding: 60px 0 40px 0;
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        } */
+
+        .hero {
+            text-align: center;
+            padding: 10px 0 20px 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            margin: 0;
         }
 
-        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; color: var(--primary); }
-        .hero-subtitle { font-size: 1.3rem; color: var(--text-light); margin-bottom: 25px; font-weight: 300; }
-        .contact-links a { margin: 0 10px; font-weight: 500; }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 0;
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            font-weight: 500;
+        }
+
+        /* --- STRICT TAB SYSTEM --- */
+        .tab-content {
+            display: none !important;
+            /* Forces all tabs to be hidden by default */
+            animation: fadeIn 0.5s;
+            padding-bottom: 15px;
+        }
+
+        .tab-content.active-tab {
+            display: block !important;
+            /* Forces only the active tab to show */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* --- SECTIONS --- */
         .section-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: var(--primary);
-            margin-bottom: 40px;
-            text-align: left;
-            border-left: 5px solid var(--highlight);
-            padding-left: 15px;
+            margin-bottom: 5px;
+            border-left: 3.5px solid var(--highlight);
+            padding-left: 10px;
         }
 
-        h3 { color: var(--accent); margin-top: 30px; margin-bottom: 15px; }
-        h4 { color: var(--text-light); font-weight: 500; margin-bottom: 10px; }
+        h3 {
+            color: var(--accent);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
 
-        /* --- RESEARCH SUMMARIES --- */
-        .summary-block { margin-bottom: 40px; }
-        .summary-block h3 { border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .research-topic { margin-bottom: 25px; }
-        .research-topic h4 { color: var(--primary); font-weight: bold; margin-bottom: 5px; }
-        .research-topic p { margin-top: 0; text-align: justify; }
+        .justified-text {
+            text-align: justify;
+        }
 
-        /* --- CV / TIMELINE --- */
+        /* --- RESEARCH ENTRIES --- */
+        .research-entry {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: flex-start;
+        }
+
+        .research-text {
+            flex: 3;
+        }
+
+        .research-text p:first-child {
+            margin-top: 0;
+        }
+
+        .research-figure {
+            flex: 2;
+            min-width: 200px;
+        }
+
+        /* --- IMAGE PLACEHOLDERS --- */
+        .img-placeholder {
+            width: 100%;
+            height: 180px;
+            /* Adjusted for side-bar feel */
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ced4da;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        /* Use this class for real images later */
+        .research-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- TIMELINE --- */
         .timeline-item {
             display: grid;
             grid-template-columns: 150px 1fr;
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 7px;
         }
+
         .timeline-date {
             font-weight: bold;
             color: var(--text-light);
@@ -120,337 +284,1070 @@
             border-right: 2px solid var(--border);
         }
 
-        /* --- ENGAGEMENT & AWARDS --- */
-        .list-grid { display: grid; gap: 15px; }
+        /* --- LIST ITEMS --- */
         .list-item {
-            background: var(--bg-light);
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid var(--accent);
+            /* background: var(--bg-light); */
+            padding: 5px;
+            /* border-radius: 6px; */
+            padding-left: 10px;
+            /* var(--accent); */
+            border-left: 3px solid #ddd;
+            margin-bottom: 10px;
         }
-        /* Highlighted Awards */
+
         .highlight-award {
             background-color: #fffcf0;
-            border-left: 4px solid var(--gold);
-            box-shadow: 0 2px 5px rgba(212, 175, 55, 0.2);
+            border-left: 3px solid var(--gold);
         }
 
         /* --- PUBLICATIONS --- */
-        .pub-list { counter-reset: pub-counter; }
-        .pub-item { margin-bottom: 25px; padding-left: 10px; position: relative; }
-        .pub-item::before {
-            content: counter(pub-counter) ". ";
-            counter-increment: pub-counter;
-            font-weight: bold;
-            color: var(--highlight);
-            margin-right: 5px;
+        .pub-item {
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 3px solid #ddd;
+        }
+
+        /* --- CONTACT --- */
+        .contact-box {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .contact-details p {
+            font-size: 1.1rem;
+            margin: 10px 0;
         }
 
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 30px 0;
             background: var(--primary);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
+            margin-top: 25px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 100px;
+        }
+
+        /* --- CAROUSEL --- */
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 20px auto 30px auto;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 16 / 7;
+            background: #000;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .dot.active {
+            background: #fff;
+            transform: scale(1.3);
         }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .timeline-item { grid-template-columns: 1fr; gap: 5px; }
-            .timeline-date { text-align: left; border-right: none; padding-bottom: 5px; color: var(--highlight); }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-date {
+                text-align: left;
+                border-right: none;
+                padding-bottom: 5px;
+                color: var(--highlight);
+            }
+
+            .research-entry {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .research-figure {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+
+        /* --- CODE BLOCKS (SCRIPTS) --- */
+        .code-container {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #e9ecef;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .code-title {
+            font-family: monospace;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .code-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: var(--white);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background-color: var(--bg-light);
+            border-color: var(--highlight);
+            color: var(--highlight);
+        }
+
+        .code-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background-color: #fafafa;
+        }
+
+        .code-content.expanded {
+            max-height: 2000px;
+            /* Large enough for most scripts */
+            overflow-y: auto;
+        }
+
+        .code-content pre {
+            margin: 0 !important;
+            padding: 15px !important;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: transparent !important;
+        }
+
+        /* Prism language overrides */
+        code[class*="language-"],
+        pre[class*="language-"] {
+            font-size: 0.9rem !important;
         }
     </style>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+        function toggleCode(btn) {
+            const container = btn.closest('.code-container');
+            const content = container.querySelector('.code-content');
+            const codeEl = content.querySelector('code');
+            const filename = container.getAttribute('data-src');
+
+            // If expanding and content is empty/default, try to load it
+            if (!content.classList.contains('expanded') && filename && (codeEl.textContent === '' || codeEl.textContent.includes('Loading...') || codeEl.textContent.includes('Click Expand'))) {
+                codeEl.textContent = 'Loading script (' + filename + ')...';
+
+                const onLoaded = (text) => {
+                    codeEl.textContent = text;
+                    // Trigger Prism highlighting
+                    if (window.Prism) {
+                        Prism.highlightElement(codeEl);
+                    }
+                };
+
+                // 1. Check if we have the code locally in scriptData
+                if (typeof scriptData !== 'undefined' && scriptData[filename]) {
+                    onLoaded(scriptData[filename]);
+                }
+                // 2. Fallback to fetch (for server environment)
+                else {
+                    fetch(filename)
+                        .then(response => {
+                            if (!response.ok) throw new Error('File not found');
+                            return response.text();
+                        })
+                        .then(text => {
+                            onLoaded(text);
+                        })
+                        .catch(err => {
+                            codeEl.textContent = 'Error: Could not load "' + filename + '".\n\n' +
+                                'Note: If viewing locally, please ensure scripts/scripts_data.js is up to date.\n' +
+                                'If hosted, check if the file path is correct.';
+                        });
+                }
+            }
+
+            const isExpanded = content.classList.toggle('expanded');
+            btn.textContent = isExpanded ? 'Collapse' : 'Expand';
+        }
+
+        function copyCode(btn) {
+            const container = btn.closest('.code-container');
+            const codeEl = container.querySelector('code');
+
+            // Only copy if script is loaded
+            if (codeEl.textContent.includes('Loading...') || codeEl.textContent.includes('Error:') || codeEl.textContent.includes('Click Expand')) {
+                return;
+            }
+
+            navigator.clipboard.writeText(codeEl.textContent).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+    <script>
+        function openTab(tabName) {
+            // 1. Hide all tab contents
+            var contents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active-tab");
+            }
+
+            // 2. Deactivate all buttons
+            var buttons = document.getElementsByClassName("nav-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            // 3. Show the specific tab
+            var target = document.getElementById(tabName);
+            if (target) {
+                target.classList.add("active-tab");
+
+                // FORCE URL UPDATE
+                window.location.hash = tabName;
+
+                // Optional: Scroll to top of content to prevent "jumping"
+                window.scrollTo(0, 0);
+            }
+
+            // 4. Highlight the button
+            var allButtons = document.querySelectorAll('.nav-btn');
+            allButtons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes("'" + tabName + "'")) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // 5. Run immediately when page loads
+        window.addEventListener('load', function () {
+            // Read the hash from URL (e.g., "#contact")
+            var hash = window.location.hash.substring(1);
+
+            if (hash) {
+                // If URL has a hash, open that tab
+                openTab(hash);
+            } else {
+                // If no hash, force "about"
+                openTab('about');
+            }
+        });
+    </script>
 </head>
+
 <body>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Amit Jangid, PhD</h1>
+            <p class="hero-subtitle">
+                Postdoctoral Fellow, Hebrew University of Jerusalem Israel<br>
+                [QSP Modeler | Mechanistic Digital Twin Expert | Computational Biophysicist]
+            </p>
+            <div class="social-links">
+                <a href="https://orcid.org/0000-0002-0888-6462" target="_blank">ORCID</a> |
+                <a href="https://scholar.google.com/citations?user=HqSFVLUAAAAJ&hl=en" target="_blank">Google
+                    Scholar</a> |
+                <a href="https://github.com/AmitJangid" target="_blank">GitHub</a> |
+                <a href="https://il.linkedin.com/in/amit-jangid-976002321" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </div>
 
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">Amit Jangid, PhD</a>
+                <!-- <div class="logo" onclick="openTab('about')">Amit Jangid, PhD</div> -->
                 <div class="nav-links">
-                    <a href="#about">About</a>
-                    <a href="#research">Research</a>
-                    <a href="#cv">CV</a>
-                    <a href="#publications">Publications</a>
-                    <a href="#engagement">Engagement</a>
-                    <a href="#awards">Awards</a>
+                    <button class="nav-btn active" onclick="openTab('about')">About</button>
+                    <button class="nav-btn" onclick="openTab('research')">Research</button>
+                    <button class="nav-btn" onclick="openTab('education')">Education</button>
+                    <button class="nav-btn" onclick="openTab('publications')">Publications</button>
+                    <button class="nav-btn" onclick="openTab('talks')">Talks/Posters</button>
+                    <button class="nav-btn" onclick="openTab('awards')">Awards</button>
+                    <button class="nav-btn" onclick="openTab('scripts')">Scripts/Links</button>
+                    <button class="nav-btn" onclick="openTab('contact')">Contact</button>
                 </div>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Amit Jangid, PhD</h1>
-            <p class="hero-subtitle">
-                Postdoctoral Fellow at The Hebrew University of Jerusalem<br>
-                Quantitative Systems Pharmacologist & Computational Biophysicist
+    <div class="container">
+
+        <div id="about" class="tab-content active-tab">
+            <!-- Carousel Section -->
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <img src="figures_slide/figures_slide.001.png" alt="Plant Model"
+                            style="width: 100%; height: auto; display: block; margin: 0px auto;" loading="lazy">
+                    </div>
+                    <div class="carousel-slide">
+                        <!-- <img src="https://via.placeholder.com/1000x450/2c5364/ffffff?text=Biophysical+Simulation+2" -->
+                        <!-- alt="Simulation 2"> -->
+                        <img src="figures_slide/figures_slide.002.png" alt="Plant Model"
+                            style="width: 100%; height: auto; display: block; margin: 0px auto;" loading="lazy">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="figures_slide/figures_slide.003.png" alt="Plant Model"
+                            style="width: 100%; height: auto; display: block; margin: 0px auto;" loading="lazy">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="figures_slide/figures_slide.004.png" alt="Plant Model"
+                            style="width: 100%; height: auto; display: block; margin: 0px auto;" loading="lazy">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="figures_slide/figures_slide.005.png" alt="Plant Model"
+                            style="width: 100%; height: auto; display: block; margin: 0px auto;" loading="lazy">
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+                <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+
+            <script>
+                // Carousel Logic
+                let currentSlide = 0;
+                const track = document.getElementById('carouselTrack');
+                const dotsContainer = document.getElementById('carouselDots');
+                const slides = document.querySelectorAll('.carousel-slide');
+                const totalSlides = slides.length;
+
+                // Create dots
+                slides.forEach((_, i) => {
+                    const dot = document.createElement('div');
+                    dot.classList.add('dot');
+                    if (i === 0) dot.classList.add('active');
+                    dot.onclick = () => goToSlide(i);
+                    dotsContainer.appendChild(dot);
+                });
+
+                function updateDots() {
+                    document.querySelectorAll('.dot').forEach((dot, i) => {
+                        dot.classList.toggle('active', i === currentSlide);
+                    });
+                }
+
+                function goToSlide(n) {
+                    currentSlide = (n + totalSlides) % totalSlides;
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    updateDots();
+                }
+
+                function moveSlide(step) {
+                    goToSlide(currentSlide + step);
+                }
+
+                // Auto slide
+                let autoSlideInterval = setInterval(() => moveSlide(1), 5000);
+
+                // Pause on hover
+                const container = document.querySelector('.carousel-container');
+                container.onmouseenter = () => clearInterval(autoSlideInterval);
+                container.onmouseleave = () => autoSlideInterval = setInterval(() => moveSlide(1), 5000);
+            </script>
+
+            <h2 class="section-title">Professional Profile</h2>
+            <div style="font-size: 1.1rem; text-align: justify;">
+                <p>
+                    Amit Jangid is a Postdoctoral Fellow at the Hebrew University of Jerusalem who specializes in using
+                    mathematical and computational modeling—including stochastic simulations and network theory—to solve
+                    intricate biological challenges. His research spans the evolution of self-incompatibility
+                    systems, gene regulatory networks, disease modeling, cell fate decisions, and complex
+                    systems.
+                </p>
+                <p>
+                    Currently, he is investigating the evolutionary mechanisms of S-RNase-based collaborative
+                    non-self recognition (CNRS) self-incompatibility in plants.
+                </p>
+            </div>
+        </div>
+
+        <div id="research" class="tab-content">
+            <h2 class="section-title">Research</h2>
+
+            <h3><strong>Postdoctoral Research</strong></h3>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>How structure shapes the allele diversity in self-incompatible
+                            plants</strong><br>We study the impact of the structure of the self-incompatibility system
+                        on the allele diversity in self-incompatible plants.<br></p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.008.png" alt="Plant Model"
+                        style="width: 100%; aspect-ratio: 1.5; object-fit: cover; object-position: top; display: block; margin-top: 0px;"
+                        loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
             </p>
-            <div class="contact-links">
-                <a href="mailto:amitjangid050@gmail.com">amitjangid050@gmail.com</a> |
-                <a href="https://scholar.google.com/" target="_blank">Google Scholar</a> |
-                <a href="#" target="_blank">GitHub</a> |
-                <a href="#" target="_blank">LinkedIn</a>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Plant mating modes: self-compatibility, self-incompatibility, and
+                            mixed
+                            mode</strong> <br>Addressing the elusive nature of mixed-mating, this study models how
+                        molecular promiscuity and inbreeding depression drive the evolution of plant
+                        self-incompatibility. This study uncover a phase diagram with three regimes: complete
+                        self-incompatibility, self-compatibility, and a newly described mixed mode. This mixed mode is
+                        distinct, characterized by vigorous, non-decaying fluctuations in the proportion of mating types
+                        rather than a static balance. Furthermore, we find that evolutionary transitions between these
+                        modes are often reversible, offering a dynamic new framework for understanding the stability of
+                        diverse plant reproductive strategies. [Jangid A. et al. <a
+                            href="https://www.biorxiv.org/content/10.1101/2025.11.30.691363v1" target="_blank"><em><span
+                                    style="color: rgb(242, 7, 226);">bioRxiv</span></em></a> (2025)] <br></p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.007.png" alt="Plant Model"
+                        style="width: 100%; height: auto; display: block; margin-top: 0px;" loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+            </p>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Reconciling conflicting selection pressures in
+                            self-incompatibility systems</strong> <br>This study investigates how plant
+                        self-incompatibility systems evolve under conflicting pressures to
+                        specifically identify partners while avoiding self-compatibility. This work uncovered that
+                        selection exerts an asymmetric effect, significantly impacting female protein amino acid
+                        composition while leaving male proteins largely unchanged. In a very good agreement with genomic
+                        data, this work offers a generalizable model for analyzing multiple selection pressures in
+                        biological systems. [Jangid A. et al. <a
+                            href="https://journals.aps.org/prresearch/abstract/10.1103/z2qq-t55b"
+                            target="_blank"><em><span style="color: rgb(242, 7, 226);">Phys.
+                                    Rev. Res.</span></em></a> 7(3) (2025)]<br></p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.006.png" alt="Plant Model"
+                        style="width: 100%; height: auto; display: block; margin-top: 0px;" loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+            </p>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Evolution of small protein - protein interaction networks in
+                            collaorative
+                            non-self recognition (CNSR)
+                            system in plants</strong><br>
+                        To understand how biological networks expand, we modeled the plant collaborative-non-self
+                        recognition self-incompatibility system. Unlike previous approaches, our framework incorporates
+                        interaction promiscuity and multiple protein partners. We show that these factors drive the
+                        population to spontaneously self-organize into distinct compatibility 'classes,' maintaining a
+                        dynamic balance between their emergence and decay. This underscores the importance of molecular
+                        promiscuity in network evolvability and offers a broader framework for similar biological
+                        systems. [Erez K., Jangid A. et al. <a href="https://www.nature.com/articles/s41467-024-49163-7"
+                            target="_blank"><em><span style="color: rgb(242, 7, 226);">Nat.
+                                    Commun.</span></em></a> 15(1) (2024)]<br></p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.005.png" alt="Plant Model"
+                        style="width: 100%; height: auto; display: block; margin-top: 0px;" loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+            </p>
+
+            <h3><strong>PhD Research</strong></h3>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Modeling IFN-$\gamma$ and IL-4 mediated networks in Atopic
+                            Dermatitis</strong> <br> Atopic Dermatitis (AD), an auto-immune skin disease, is mainly
+                        characterized
+                        by an imbalance in Th1 and Th2 populations due to environmental interactions. Many cells and
+                        cytokines
+                        are involved in the pathogenesis of AD. We have modeled the networks of Th1, Th2, dendritic, and
+                        keratinocyte cells mediated by individual two key cytokines (IFN-$\gamma$ and IL-4). In the
+                        model, we
+                        have assumed that cytokines dynamics approach its equilibrium faster than cell dynamics. From
+                        sensitivity analysis, we observed that transitions between acute and chronic states may be
+                        through two
+                        different paths, namely, smooth and abrupt. Depending on the nature of the cytokines, there is a
+                        possibility to drive the system from a bistable phase to the acute state by giving external
+                        stimulus. [Pandey R. et al. <a
+                            href="https://www.sciencedirect.com/science/article/abs/pii/S002251932200282X?via%3Dihub"
+                            target="_blank"><em><span style="color: rgb(242, 7, 226);">Theor. Biol.</span></em></a>
+                        556 (2023)]<br>
+                    </p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.004.png" alt="Plant Model"
+                        style="width: 100%; height: auto; display: block; margin-top: 0px;" loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+            </p>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Stress driven minimal p53 regulatory pathway</strong> <br> We have
+                        constructed a
+                        stress-driven minimal model of the p53 regulatory network. This regulatory network mainly
+                        consists of
+                        active and mutant forms of tumor suppressor gene p53, MDM2, ARF, oncogene, and three different
+                        forms of
+                        stress. The model mainly represents the competition between an active and mutant form of
+                        tumor-suppressor gene p53. Depending on the nature of the external stress, four distinct
+                        dynamical
+                        states of p53 are observed. These dynamical states correspond to active, apoptosis,
+                        pre-malignant, and
+                        cancer states depending on the level of active and mutant p53. Transitions from cancer to any
+                        other
+                        state are found to be irreversible if stress is either oscillatory or constant. In case of
+                        decaying
+                        stress, the apoptotic state vanishes and for low stress, the pre-malignant state is bounded by
+                        two
+                        critical points, allowing the system to transition reversibly from the active to the
+                        pre-malignant
+                        state. For large stress, the two critical points expand, and the system moves to an irreversible
+                        cancerous state. [Jangid A. et al. <a href="https://www.nature.com/articles/s41598-021-82054-1"
+                            target="_blank"><em><span style="color: rgb(242, 7, 226);">Sci. Rep.</span></em></a> 11(1)
+                        (2021), Zubair M. et al. <a
+                            href="https://academic.oup.com/bib/article/26/1/bbae706/7958309?login=false"
+                            target="_blank"><em><span style="color: rgb(242, 7, 226);">Brief. Bioinform.</span></em></a>
+                        26(1) (2025)]<br></p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.003.png" alt="Plant Model"
+                        style="width: 100%; height: auto; display: block; margin-top: 0px;" loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+            </p>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Nucleus and noise regulating cell fate decision</strong> <br>We
+                        have
+                        built a
+                        population-based stochastic cellular model starting from a single stem cell which divides
+                        stochastically
+                        to give rise to either stem or differentiated cells. The model consists of three main
+                        components:
+                        nucleus position (with and without noise), gene-regulatory network (GRN, mutual inhibition, and
+                        self-activation,) and stochastic segregation of transcription factors into daughter cells. The
+                        model
+                        shows short and non-terminating (long) genealogies similar to those observed in experimental
+                        studies of
+                        neuroblast and B cells. Non-terminating genealogies have non-zero stem cells whereas in every
+                        short-terminated genealogy, the number of stem cells goes to zero (all leaf nodes are
+                        differentiated
+                        cells). We have compared the model with the coarse-grained Markov model, both leading to
+                        bimodal
+                        probability distributions showing good agreement. The model shows that the nucleus's position
+                        towards
+                        the basal leads to more asymmetric division and apical nuclei enhance symmetric division leading
+                        to more
+                        stem cells. Introducing noise in the nucleus position, more differentiated cells are observed
+                        through
+                        symmetric differentiation. [Jangid A. et al. <a
+                            href="https://www.sciencedirect.com/science/article/pii/S2589004221011676"
+                            target="_blank"><em><span style="color: rgb(242, 7, 226);">iScience</span></em></a> 24(10)
+                        (2021)]<br></p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.002.png" alt="Plant Model"
+                        style="width: 100%; height: auto; display: block; margin-top: 0px;" loading="lazy">
+                </div>
+            </div>
+
+            <p>
+                <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+            </p>
+
+            <div class="research-entry">
+                <div class="research-text">
+                    <p class="justified-text"><strong>Collective dynamics of coupled NF-$\kappa$B ensembles</strong>
+                        <br>We studied
+                        the
+                        collective dynamics of coupled NF-$\kappa$B ensemble in a diffusive environment driven by
+                        TNF-$\alpha$
+                        molecule. The NF-$\kappa$B gene is known to control various essential genes for smooth
+                        functioning
+                        of
+                        cells. In the model, each NF-$\kappa$B module is coupled via TNF-$\alpha$ diffusive molecule
+                        with
+                        some
+                        coupling strength. Through a suitable order parameter, we observed that for some range of
+                        coupling
+                        strength all coupled NF-$\kappa$B modules are desynchronized, and for some range there is
+                        cluster
+                        formation and chimera states -- few modules will have the same dynamics and few will have their
+                        own
+                        dynamics. We also observed complete synchronization of all modules for some range of coupling
+                        strength.
+                        We also studied another case in which there is heterogeneity in the translation of NF-$\kappa$B
+                        and
+                        observed similar behavior. <br>
+                    </p>
+                </div>
+                <div class="research-figure">
+                    <!-- <div class="img-placeholder"> -->
+                    <!-- [Figure: Genetic Network Evolution] -->
+                    <img src="figures/figures.001.png" alt="Plant Model"
+                        style="width: 100%; aspect-ratio: 1.5; object-fit: cover; object-position: top; display: block; margin-top: 0px;"
+                        loading="lazy">
+                </div>
             </div>
         </div>
-    </section>
 
-    <section id="research">
-        <div class="container">
-            <h2 class="section-title">Research Summaries</h2>
+        <div id="education" class="tab-content">
+            <h2 class="section-title">Education</h2>
 
-            <div class="summary-block">
-                <h3>Postdoctoral Research</h3>
-                
-                <div class="research-topic">
-                    <h4>Evolution of small genetic regulatory networks & CNSR system</h4>
-                    <p>
-                        We study how biological networks evolve and expand in the context of the plant collaborative-non-self recognition self-incompatibility system.
-                        Self-incompatibility evolved to avoid self-fertilization among hermaphroditic plants. We constructed a novel theoretical framework 
-                        that crucially affords interaction promiscuity and multiple distinct partners per protein. We demonstrated spontaneous 
-                        self-organization of the population into distinct 'classes' with full between-class compatibility and a dynamic long-term 
-                        balance between class emergence and decay.
-                    </p>
-                </div>
-
-                <div class="research-topic">
-                    <h4>Reconciling conflicting selection pressures</h4>
-                    <p>
-                        Complex biological systems should often reconcile conflicting selection pressures. We studied how such pressures shape the evolution 
-                        of the self-incompatibility system in plants. We found that selection exerts asymmetric responses of amino acid frequencies, 
-                        affecting female proteins considerably, but hardly the male. Using large deviations theory, we well-approximated the simulated 
-                        frequencies and found agreement with genomic data.
-                    </p>
-                </div>
-
-                <div class="research-topic">
-                    <h4>A phase transition: self-compatibility vs self-incompatibility</h4>
-                    <p>
-                        Despite the ubiquity of mixed-mating, its evolutionary sources and dynamic stability remain elusive. Using population-level 
-                        stochastic simulations, we modeled the effects of promiscuity of molecular recognition and inbreeding depression. 
-                        We revealed a phase diagram with three regimes: complete self-incompatibility (SI), complete self-compatibility (SC), 
-                        and a mixture combining both. This mixed mode, described here for the first time, exhibits vigorous, non-decaying fluctuations.
-                    </p>
-                </div>
-            </div>
-
-            <div class="summary-block">
-                <h3>PhD Research</h3>
-
-                <div class="research-topic">
-                    <h4>Modeling IFN-y and IL-4 mediated networks in Atopic Dermatitis</h4>
-                    <p>
-                        We modeled the networks of Th1, Th2, dendritic, and keratinocyte cells mediated by key cytokines (IFN-y and IL-4) to study Atopic Dermatitis.
-                        From sensitivity analysis, we observed that transitions between acute and chronic states may occur through smooth or abrupt paths.
-                        Depending on the nature of the cytokines, there is a possibility to drive the system from a bi-stable phase to acute by giving external stimulus.
-                    </p>
-                </div>
-
-                <div class="research-topic">
-                    <h4>Stress driven minimal p53 regulatory pathway</h4>
-                    <p>
-                        We constructed a stress-driven minimal model of the p53 regulatory network. Depending on the nature of the external stress, 
-                        four distinct dynamical states of p53 were observed: active, apoptosis, pre-malignant, and cancer states. 
-                        We found that transitions from cancer to any other state are irreversible if stress is either oscillatory or constant.
-                    </p>
-                </div>
-
-                <div class="research-topic">
-                    <h4>Nucleus and noise regulating cell fate decision</h4>
-                    <p>
-                        We built a population-based stochastic cellular model starting from a single stem cell. The model consists of nucleus position, 
-                        gene-regulatory network, and stochastic segregation of transcription factors. The model shows that the nucleus's position 
-                        towards the basal leads to more asymmetric division, while introducing noise in the nucleus position leads to more differentiated cells.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="cv" style="background-color: var(--bg-light);">
-        <div class="container">
-            <h2 class="section-title">Curriculum Vitae</h2>
-
-            <h3>Research Experience</h3>
+            <h3>Experience</h3>
             <div class="timeline-item">
                 <div class="timeline-date">Apr 2022 - Present</div>
-                <div>
-                    <strong>Postdoctoral Fellow</strong><br>
-                    Hebrew University of Jerusalem, Rehovot, Israel
-                </div>
+                <div><strong>Postdoctoral Fellow</strong><br>Hebrew University of Jerusalem, Israel<br>Topic: Evolution
+                    of S-RNase-based self-incompatibility in the collaborative non-self recognition (CNSR) system in the
+                    structured and panmictic populations</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">Jun 2018 - Dec 2021</div>
-                <div>
-                    <strong>Senior Research Fellow (SRF)</strong><br>
-                    Jawaharlal Nehru University, New Delhi
-                </div>
+                <div><strong>Senior Research Fellow (SRF)</strong><br>Jawaharlal Nehru University, New Delhi<br>Topic:
+                    Noise-regulated cell fate decision and dynamics of coupled NF-$\kappa$B oscillators</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">Jun 2016 - May 2018</div>
-                <div>
-                    <strong>Junior Research Fellow (JRF)</strong><br>
-                    Jawaharlal Nehru University, New Delhi
-                </div>
+                <div><strong>Junior Research Fellow (JRF)</strong><br>Jawaharlal Nehru University, New Delhi<br>Topic:
+                    Modeling stress-driven p53 regulatory network and cytokines-regulated skin disease</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">Jan 2015 - May 2015</div>
-                <div>
-                    <strong>Master Dissertation</strong><br>
-                    Central University of Rajasthan, Ajmer
-                </div>
+                <div><strong>Master's Dissertation</strong><br>Central University of Rajasthan, Ajmer<br>Topic:
+                    Computational neuroscience and synchronization</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">May 2014 - Jul 2014</div>
-                <div>
-                    <strong>Summer Internship</strong><br>
-                    Jawaharlal Nehru University, New Delhi
-                </div>
+                <div><strong>Summer Internship</strong><br>Jawaharlal Nehru University, New Delhi<br>Topic: Stochastic
+                    simulation algorithms</div>
             </div>
 
             <h3>Education</h3>
             <div class="timeline-item">
-                <div class="timeline-date">2016 - 2022</div>
-                <div>
-                    <strong>PhD, Computational Biology and Bioinformatics</strong><br>
-                    Jawaharlal Nehru University, New Delhi<br>
-                    <span style="font-size:0.9rem; color: #666;">Thesis: Modeling Molecular and Cellular-level Interactions in Biological Systems</span>
+                <div class="timeline-date">2016 - 2021</div>
+                <div><strong>PhD Physics - Computational Biology and Bioinformatics</strong><br>Jawaharlal Nehru
+                    University, New Delhi<br>Title: Modeling Molecular and Cellular-level Interactions in Biological
+                    Systems
                 </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2015 - 2016</div>
+                <div><strong>Post M.Sc. Computational Biology and Bioinformatics</strong><br>Jawaharlal Nehru
+                    University, New Delhi<br>Pre-PhD Course Work (First ranker)</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">2013 - 2015</div>
-                <div>
-                    <strong>M.Sc. Physics</strong><br>
-                    Central University of Rajasthan, Ajmer
-                </div>
+                <div><strong>M.Sc. Physics</strong><br>Central University of Rajasthan, Ajmer<br>Title: Study of
+                    Bio-Physical Properties of Neurons, Modeling and Synchronization.</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">2010 - 2013</div>
-                <div>
-                    <strong>B.Sc. Physics, Chemistry & Mathematics</strong><br>
-                    University of Rajasthan, Jaipur
+                <div><strong>B.Sc. Physics, Mathematics, and Chemistry</strong><br>University of Rajasthan, Jaipur
                 </div>
             </div>
 
-            <h3>Professional Activities</h3>
-            <div class="list-grid">
-                <div class="list-item">
-                    <strong>Peer Review:</strong> Nature Communications, Briefings in Bioinformatics, Discover Physics, and Plos One.
-                </div>
-                <div class="list-item">
-                    <strong>Organizational:</strong> Co-convenor, Annual Students Symposium-2017, School of Computational and Integrative Sciences, JNU, New Delhi.
-                </div>
-            </div>
+
         </div>
-    </section>
 
-    <section id="publications">
-        <div class="container">
+        <div id="publications" class="tab-content">
             <h2 class="section-title">Publications</h2>
-            <div class="pub-list">
-                <div class="pub-item">
-                    <strong>Amit Jangid</strong>, O. N. Feldheim and T. Friedlander. Volatile but persistent co-existence of self-compatibility and self-incompatibility in plants. <em>bioRxiv</em> (2025).
-                </div>
-                <div class="pub-item">
-                    <strong>Amit Jangid</strong>, K. Erez, O. N. Feldheim and T. Friedlander. Reconciling conflicting selection pressures in the plant collaborative non-self recognition self-incompatibility system. <em>Phys. Rev. Res. 7(3), 033232</em> (2025).
-                </div>
-                <div class="pub-item">
-                    M. Z. Malik, M. Dashti, <strong>Amit Jangid</strong>, A. Channanath, S. E. John, R.K. Brojen Singh, F. Al-Mulla and T. A. Thanaraj. Complex p53 dynamics regulated by miR-125b in cellular responses to reactive oxidative stress and DNA damage. <em>Brief. Bioinform. 26(1), bbae706</em> (2025).
-                </div>
-                <div class="pub-item">
-                    K. Erez*, <strong>Amit Jangid*</strong>, O. N. Feldheim and T. Friedlander. The role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility in plants. <em>Nat. Commun. 15(1), 4864</em> (2024).
-                </div>
-                <div class="pub-item">
-                    R. Pandey, <strong>Amit Jangid</strong>, R. G. Vinjamuri and R. Ramaswamy. Modeling of indirect cell-cell interaction networks mediated by IFN-gamma/IL-4 cytokine involved in atopic dermatitis. <em>J. Theor. Biol. 556, 111291</em> (2023).
-                </div>
-                <div class="pub-item">
-                    <strong>Amit Jangid*</strong>, S. Selvarajan and R. Ramaswamy. A stochastic model of homeostasis: the roles of noise and nuclear positioning in deciding cell fate. <em>iScience 24(10), 103199</em> (2021).
-                </div>
-                <div class="pub-item">
-                    <strong>Amit Jangid</strong>, M. Z. Malik, R. Ramaswamy and R. K. Brojen Singh. Transition and identification of pathological states in p53 dynamics for therapeutic intervention. <em>Sci. Rep. 11(1), 2349</em> (2021).
-                </div>
-                <div class="pub-item">
-                    <strong>Amit Jangid*</strong>, J. Singha and R. Ramaswamy. Collective dynamics of NF-kB ensemble in coupled diffusive environment of TNF-a. <em>(in preparation)</em>.
-                </div>
-                <div class="pub-item">
-                    <strong>Amit Jangid</strong> and U. Singh. Dynamics of different biological oscillators coupled via delta notch signal. <em>(in preparation)</em>.
-                </div>
+            <h3></h3>
+            <ol reversed>
+                <li class="pub-item"><strong>Amit Jangid</strong>, O. N. Feldheim and T. Friedlander. Volatile but
+                    persistent co-existence of self-compatibility and self-incompatibility in plants. <a
+                        href="https://www.biorxiv.org/content/10.1101/2025.11.30.691363v1" target="_blank"><em><span
+                                style="color: rgb(242, 7, 226);">bioRxiv</span></em></a> (2025). [ under review <em>PRX
+                        life</em> ]</li>
+                <li class="pub-item"><strong>Amit Jangid</strong>, K. Erez, O. N. Feldheim and T. Friedlander.
+                    Reconciling conflicting selection pressures in the plant collaborative non-self recognition
+                    self-incompatibility system. <a
+                        href="https://journals.aps.org/prresearch/abstract/10.1103/z2qq-t55b" target="_blank"><em><span
+                                style="color: rgb(242, 7, 226);">Phys.
+                                Rev. Res.</span></em></a> 7(3) (2025).</li>
+                <li class="pub-item">M. Z. Malik, M. Dashti, <strong>Amit Jangid</strong>... T. A. Thanaraj. Complex
+                    p53 dynamics regulated by miR-125b in cellular responses to reactive oxidative stress and DNA
+                    damage. <a href="https://academic.oup.com/bib/article/26/1/bbae706/7958309?login=false"
+                        target="_blank"><em><span style="color: rgb(242, 7, 226);">Brief. Bioinform.</span></em></a>
+                    26(1) (2025).</li>
+                <li class="pub-item">K. Erez*, <strong>Amit Jangid*</strong>, O. N. Feldheim and T. Friedlander. The
+                    role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility in
+                    plants. <a href="https://www.nature.com/articles/s41467-024-49163-7" target="_blank"><em><span
+                                style="color: rgb(242, 7, 226);">Nat.
+                                Commun.</span></em></a> 15(1) (2024). [<span style="color: rgb(88, 31, 219);"><strong>*
+                            co-first
+                            author</strong></span>]</li>
+                <li class="pub-item">R. Pandey, <strong>Amit Jangid</strong>, R. G. Vinjamuri and R. Ramaswamy.
+                    Modeling of indirect cell-cell interaction networks mediated by IFN-$\gamma$/IL-4 cytokines involved
+                    in
+                    atopic dermatitis. <a
+                        href="https://www.sciencedirect.com/science/article/abs/pii/S002251932200282X?via%3Dihub"
+                        target="_blank"><em><span style="color: rgb(242, 7, 226);">Theor. Biol.</span></em></a> 556
+                    (2023).</li>
+                <li class="pub-item"><strong>Amit Jangid*</strong>, S. Selvarajan and R. Ramaswamy. A stochastic model
+                    of homeostasis: the roles of noise and nuclear positioning in deciding cell fate. <a
+                        href="https://www.sciencedirect.com/science/article/pii/S2589004221011676"
+                        target="_blank"><em><span style="color: rgb(242, 7, 226);">iScience</span></em></a> 24(10)
+                    (2021). [<span style="color: rgb(88, 31, 219);"><strong>*
+                            Correspondence</strong></span>]</li>
+                <li class="pub-item"><strong>Amit Jangid</strong>, M. Z. Malik, R. Ramaswamy and R. K. Brojen Singh.
+                    Transition and identification of pathological states in p53 dynamics for therapeutic intervention.
+                    <a href="https://www.nature.com/articles/s41598-021-82054-1" target="_blank"><em><span
+                                style="color: rgb(242, 7, 226);">Sci. Rep.</span></em></a> 11(1) (2021).
+                </li>
+            </ol>
+            <div class="pub-item"><strong>Amit Jangid*</strong>, J. Singha and R. Ramaswamy. Collective dynamics of
+                NF-$\kappa$B ensembles in a coupled diffusive environment driven by TNF-$\alpha$. (in preparation).
             </div>
+            <div class="pub-item"><strong>Amit Jangid</strong> and U. Singh. Dynamics of different biological
+                oscillators coupled via delta notch signal. (in preparation).</div>
         </div>
-    </section>
 
-    <section id="engagement" style="background-color: var(--bg-light);">
-        <div class="container">
-            <h2 class="section-title">Academic Engagement</h2>
-            
+        <div id="talks" class="tab-content">
+            <h2 class="section-title">Talks/Posters</h2>
+
             <h3>Talks</h3>
-            <div class="list-grid">
-                <div class="list-item">
-                    <strong>'Collective behavior of locally coupled NF-KB oscillators'</strong><br>
-                    3rd Symposium on Complex Biodynamics & Networks, Matrix Biopolis Singapore (Dec 2018).
-                </div>
-            </div>
-
+            <ol reversed>
+                <li class="list-item">'Collective behavior of locally coupled NF-$\kappa$B oscillators' 3rd Symposium on
+                    Complex Biodynamics & Networks, Matrix Biopolis Singapore, December 10-12, 2018.</li>
+            </ol>
             <h3>Posters & Flash Talks</h3>
-            <div class="list-grid">
-                <div class="list-item">Flash talk & poster: 'A phase transition between plant mating modes', EMBO | EMBL Symposium, Heidelberg (2025).</div>
-                <div class="list-item">Talk: 'Plant collaborative non-self recognition self-incompatibility systems', ISEB, Hebrew University (2024).</div>
-                <div class="list-item">Flash talk & poster: 'Phase transition and evolutionary emergence of self-incompatibility', BioSoft Day, Tel Aviv (2024).</div>
-                <div class="list-item">'The role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility', SMEEB, L'Aquila, Italy (2024).</div>
-                <div class="list-item">'To interact or not to interact: a toy model for protein-protein interaction', ISEB, Haifa (2023).</div>
-                <div class="list-item">'A stochastic approach to cell fate decision and homeostasis', ECMTB, Heidelberg (2022).</div>
-                <div class="list-item">'Cancer dynamics: Identification of states for therapeutic intervention', CNSD, IIT-Kanpur (2019).</div>
-                <div class="list-item">'Effect of noise in repeated games', CNSD, JNU New Delhi (2018).</div>
-                <div class="list-item">'Networks and sub-networks in atopic dermatitis', ICTP, Trieste, Italy (2018).</div>
-            </div>
-
+            <ol reversed>
+                <li class="list-item">'Volatile but persistent co-existence of self-compatibility and
+                    self-incompatibility in plants' ISEB, Ben-Gurion University of the Negev, Israel, February 10-11,
+                    2026.</li>
+                <li class="list-item">Flash talk and poster 'A phase transition between plant mating modes' EMBO |
+                    EMBL Symposium: Theory and concepts in biology, Heidelberg, Germany, May 06 - 09, 2025.</li>
+                <li class="list-item">'Plant collaborative non-self recognition self-incompatibility systems:
+                    facilitating conditions, evolutionary stability, breakdowns, and recovery' ISEB, Hebrew University
+                    of Jerusalem, Israel, September 22-23, 2024.</li>
+                <li class="list-item">Flash talk and poster 'Phase transition and evolutionary emergence of
+                    self-incompatibility in the non-self recognition system in plants' BioSoft Day Symposium #5, June
+                    27, 2024, Tel Aviv University, Israel.</li>
+                <li class="list-item">'The role of promiscuous molecular recognition in the evolution of RNase-based
+                    self-incompatibility in plants' SMEEB, May 28-31, 2024, L'Aquila, Italy.</li>
+                <li class="list-item">'To interact or not to interact: a toy model for the evolution of the
+                    protein-protein interaction network in RNase-based self-incompatibility system' ISEB, University of
+                    Haifa, Israel, April 02-03, 2023.</li>
+                <li class="list-item">'A stochastic approach to cell fate decision and homeostasis: symmetric and
+                    asymmetric cell division' ECMTB, Heidelberg, Germany, September 19-23, 2022. (online)</li>
+                <li class="list-item">'Cancer dynamics: Identification of states for therapeutic intervention'
+                    Conference on Nonlinear Systems and Dynamics (CNSD), IIT-Kanpur, December 12-15, 2019. (funded by J.
+                    C.
+                    Bose Fellowship, DST India)</li>
+                <li class="list-item">'Effect of noise in repeated games' at Conference on Nonlinear Systems and
+                    Dynamics
+                    (CNSD), Jawaharlal Nehru University New Delhi, October 11 - 14, 2018.</li>
+                <li class="list-item">'Networks and sub-networks in atopic dermatitis' International Center for
+                    Theoretical Physics, Trieste, Italy, February 19 - March 16, 2018. (funded by ICTP Trieste)</li>
+            </ol>
             <h3>Schools & Conferences</h3>
-            <div class="list-grid">
-                <div class="list-item">'Models & Theory in Ecology & Evolution', The Steinhardt Museum, Israel (2025).</div>
-                <div class="list-item">'Populations genomics and systems biology of rapid evolution', Ben-Gurion University (2022).</div>
-                <div class="list-item">'Spring college on the physics of complex systems', ICTP, Trieste, Italy (2018).</div>
-                <div class="list-item">'Winter school on quantitative systems biology', ICTS Bangalore (2017).</div>
-                <div class="list-item">'Econophys-2017 & Asia pacific econophysics conference', JNU & Delhi University (2017).</div>
-                <div class="list-item">'Non-linear dynamics with applications in physics...', Central University of Rajasthan (2014).</div>
-            </div>
-        </div>
-    </section>
+            <ol reversed>
+                <li class="list-item">'Models & Theory in Ecology & Evolution', The Steinhardt Museum of Natural,
+                    Israel, November 09, 2025.</li>
+                <li class="list-item">'Populations genomics and systems biology of rapid evolution' Ben-Gurion
+                    University of Negev, Israel, December 18 - 22, 2022.</li>
+                <li class="list-item">'Spring college on the physics of complex systems' International Center for
+                    Theoretical Physics, Trieste, Italy, February 19- March 16, 2018. (funded by ICTP Trieste)</li>
+                <li class="list-item">'Winter school on quantitative systems biology' ICTS Bangalore, December 04 -
+                    22, 2017. (informal)</li>
+                <li class="list-item">'Econophys-2017 & Asia pacific econophysics conference' Jawaharlal Nehru
+                    University & Delhi University New Delhi, November 15 18, 2017.</li>
+                <li class="list-item">'Non-linear dynamics with applications in physics, biophysics, engineering and
+                    other fields' Central University of Rajasthan, Ajmer, December 01 - 20, 2014.</li>
+            </ol>
 
-    <section id="awards">
-        <div class="container">
+            <h3>Peer Review</h3>
+            <ol reversed>
+                <li class="list-item">Nature Communications, Briefings in Bioinformatics, Discover Physics, Plos One.
+                </li>
+            </ol>
+
+            <h3>Organizational</h3>
+            <ol reversed>
+                <li class="list-item">Co-convenor: Annual Students Symposium-2017, School of Computational and
+                    Integrative
+                    Sciences, Jawaharlal Nehru University, New Delhi.</li>
+            </ol>
+        </div>
+
+        <div id="awards" class="tab-content">
             <h2 class="section-title">Awards & Honors</h2>
-            <div class="list-grid">
-                <div class="list-item highlight-award">
-                    <strong>Lady Davis Fellowship</strong> (2025-2026)<br>
-                    Hebrew University of Jerusalem, Israel.
-                </div>
-                <div class="list-item highlight-award">
-                    <strong>Golda Meir Postdoctoral Fellowship</strong> (2024-2025)<br>
-                    Hebrew University of Jerusalem, Israel.
-                </div>
-                <div class="list-item highlight-award">
-                    <strong>UGC-JRF (Junior Research Fellow) Scholarship</strong> (2016-2017)<br>
-                    Rank 157, Percentile >99.0.
-                </div>
+            <h3></h3>
+            <ol reversed>
+                <li class="list-item highlight-award"><strong>Lady Davis Fellowship</strong> (Oct 2025 - Sep 2026),
+                    Hebrew University of Jerusalem, Israel.</li>
+                <li class="list-item highlight-award"><strong>Golda Meir Postdoctoral Fellowship</strong> (Oct 2024 -
+                    Sep 2025), Hebrew University of Jerusalem, Israel.</li>
+                <!-- <li class="list-item"><strong>Postdoctoral Fellowship</strong> (2022-Present), Hebrew University of -->
+                <!-- Jerusalem, Israel.</li> -->
+                <li class="list-item"><strong>Travel grant, International Center for Theoretical Physics (ICTP), Trieste
+                    </strong>(2018).</li>
+                <li class="list-item highlight-award"><strong>UGC-SRF (Senior Research Fellow) Scholarship</strong>
+                    (Jan 2018 - Dec 2020).</li>
+                <li class=" list-item"><strong>Best presentation award</strong> at the Annual Students Symposium-2017
+                    JNU
+                    New Delhi.</li>
+                <li class="list-item"><strong>First Ranker</strong> in Pre-PhD examination (2016).</li>
+                <li class="list-item"><strong>GATE-2018 in Physics</strong>, Rank: 1274, Percentile: 90.57.</li>
+                <li class="list-item"><strong>GATE-2016 in Physics</strong>, Rank: 1603, Percentile: 83.82.</li>
+                <li class="list-item highlight-award"><strong>UGC-JRF (Junior Research Fellow) Scholarship</strong>
+                    (Jan 2016 - Dec 2017).</li>
+                <li class="list-item"><strong>CSIR-UGC NET for JRF in Physics</strong>, Rank: 157, Percentile: over
+                    99.0 (2015).</li>
+                <li class="list-item"><strong>GATE-2015 in Physics</strong> Rank: 397, Percentile: 94.83.</li>
+                <li class="list-item"><strong>CSIR-UGC NET for LS in Physics</strong>, Rank: 133, Percentile: over 98.0
+                    (2014).</li>
+            </ol>
+        </div>
 
-                <div class="list-item"><strong>Postdoctoral Fellowship</strong> (2022-Present), Hebrew University of Jerusalem.</div>
-                <div class="list-item"><strong>UGC-SRF Scholarship</strong> (2018-2020).</div>
-                <div class="list-item"><strong>Best Presentation Award</strong>, Annual Students Symposium-2017, JNU.</div>
-                <div class="list-item"><strong>First Ranker</strong> in Pre-PhD examination (2016).</div>
-                <div class="list-item"><strong>GATE-2018 Physics</strong>, Rank 1274.</div>
-                <div class="list-item"><strong>GATE-2016 Physics</strong>, Rank 1603.</div>
-                <div class="list-item"><strong>GATE-2015 Physics</strong>, Rank 397.</div>
-                <div class="list-item"><strong>CSIR-UGC NET for LS in Physics</strong> (2014), Rank 133.</div>
+        <div id="scripts" class="tab-content">
+            <h2 class="section-title">Python scripts</h2>
+            <!-- <h3>Python Scripts</h3> -->
+            <h3 style="margin-top: 20px;">Project: CNSR mechanisms in S-RNase based self-incompatibility system in
+                plants</h3>
+            <p>Following python scrips are common for the collabrative non-self recognition (CNSR) mechanism in S-RNase
+                based self-incompatibility (SI) system in plants.</p>
+
+            <p style="margin-top: 20px;"><strong>Initialization</strong><br>
+                This first script calculates the probabilities of different female mating modes (self-compatible vs
+                self-incompatible) within a structured population.</p>
+
+            <div class="code-container" data-src="scripts/cnsr_diploid_conflictic_selection/testing_funs.py">
+                <div class="code-header">
+                    <span class="code-title">testing_funs.py</span>
+                    <div class="code-controls">
+                        <button class="control-btn" onclick="copyCode(this)">Copy code</button>
+                        <button class="control-btn" onclick="toggleCode(this)">Expand</button>
+                    </div>
+                </div>
+                <div class="code-content" id="code-testing_funs">
+                    <pre><code class="language-python">Click Expand to load script...</code></pre>
+                </div>
+            </div>
+
+            <p style="margin-top: 30px;"><strong>Interaction</strong><br>
+                After calculating the initial probabilities, we run a stochastic simulation to observe how these traits
+                evolve over many generations. Here is the demo simulation logic:</p>
+
+            <div class="code-container" data-src="scripts/cnsr_diploid_conflictic_selection/demo_simulation.py">
+                <div class="code-header">
+                    <span class="code-title">demo_simulation.py</span>
+                    <div class="code-controls">
+                        <button class="control-btn" onclick="copyCode(this)">Copy code</button>
+                        <button class="control-btn" onclick="toggleCode(this)">Expand</button>
+                    </div>
+                </div>
+                <div class="code-content" id="code-demo_simulation_1">
+                    <pre><code class="language-python">Click Expand to load script...</code></pre>
+                </div>
+            </div>
+
+            <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+
+            <h3 style="margin-top: 20px;">Project: Three distinct mating strategies in plants</h3>
+            <p>This project explores the transitions among different plant mating modes, and the dynamics and stability
+                of mixed-mating states.</p>
+
+            <div class="code-container" data-src="scripts/cnsr_diploid_phase_transitions/demo_simulation.py">
+                <div class="code-header">
+                    <span class="code-title">demo_simulation.py</span>
+                    <div class="code-controls">
+                        <button class="control-btn" onclick="copyCode(this)">Copy code</button>
+                        <button class="control-btn" onclick="toggleCode(this)">Expand</button>
+                    </div>
+                </div>
+                <div class="code-content" id="code-demo_simulation_2">
+                    <pre><code class="language-python">Click Expand to load script...</code></pre>
+                </div>
             </div>
         </div>
-    </section>
+
+        <div id="contact" class="tab-content">
+            <h2 class="section-title">Contact</h2>
+            <h3></h3>
+            <div class="contact-box">
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">I am open to collaborations in quantitative
+                    biology.</p>
+
+                <div class="contact-details">
+                    <p><strong>Email:</strong> <a href="mailto:amitjangid050@gmail.com">amitjangid050@gmail.com</a>
+                    </p>
+                    <!-- <p><strong>Phone:</strong> +972-54-838-5807</p> -->
+                    <hr style="width: 50%; margin: 20px auto; border-top: 1px solid #ddd;">
+                    <p><strong>Address:</strong></p>
+                    <p>
+                        Room No. 106, Department of Plant Sciences and Genetics<br>
+                        The Robert H. Smith Faculty of Agriculture, Food and Environment<br>
+                        Hebrew University of Jerusalem, Rehovot, Israel
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <footer>
         <div class="container">
-            &copy; 2026 Amit Jangid. Built with HTML & CSS.
+            <!-- &copy; 2026 Amit Jangid <br> -->
+            <!-- The Robert H. Smith Faculty of Agriculture, Food and Environment, Rehovot, Israel. -->
         </div>
     </footer>
 
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
+
 </html>
