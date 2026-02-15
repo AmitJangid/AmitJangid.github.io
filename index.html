@@ -521,6 +521,18 @@
             overflow-y: auto;
         }
 
+        .code-footer {
+            display: none;
+            padding: 10px 15px;
+            background-color: #e9ecef;
+            border-top: 1px solid #ddd;
+            justify-content: flex-end;
+        }
+
+        .code-content.expanded+.code-footer {
+            display: flex;
+        }
+
         .code-content pre {
             margin: 0 !important;
             padding: 15px !important;
@@ -584,7 +596,23 @@
             }
 
             const isExpanded = content.classList.toggle('expanded');
-            btn.textContent = isExpanded ? 'Collapse' : 'Expand';
+
+            // Sync all toggle buttons in this container
+            const allBtns = container.querySelectorAll('.control-btn');
+            allBtns.forEach(b => {
+                if (b.getAttribute('onclick') && b.getAttribute('onclick').includes('toggleCode')) {
+                    b.textContent = isExpanded ? 'Collapse' : 'Expand';
+                }
+            });
+
+            // If collapsing from the bottom button, scroll back to the top of the container
+            if (!isExpanded && btn.closest('.code-footer')) {
+                // Add a small delay to allow the height transition to start/finish
+                // so the scroll lands in the right place
+                setTimeout(() => {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+            }
         }
 
         function copyCode(btn) {
@@ -1276,6 +1304,10 @@
                 </div>
                 <div class="code-content" id="code-testing_funs">
                     <pre><code class="language-python">Click Expand to load script...</code></pre>
+                </div>
+                <div class="code-footer">
+                    <button class="control-btn" onclick="copyCode(this)">Copy code</button>
+                    <button class="control-btn" onclick="toggleCode(this)">Collapse</button>
                 </div>
             </div>
 
