@@ -548,6 +548,11 @@
         pre[class*="language-"] {
             font-size: 0.9rem !important;
         }
+
+        .indent-section {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
     </style>
     <script>
         window.MathJax = {
@@ -800,14 +805,17 @@
             <h2 class="section-title">Professional Profile</h2>
             <div style="font-size: 1.1rem; text-align: justify;">
                 <p>
-                    Amit Jangid is a Postdoctoral Fellow at the Hebrew University of Jerusalem who specializes in using
+                    Amit Jangid is a postdoctoral fellow in <a
+                        href="https://tamarfriedlander.wixsite.com/friedlander-lab" target="_blank"><span
+                            style="color: rgb(23, 7, 242);">Dr. Tamar Friedlander's</span></a> group at the
+                    Hebrew University of Jerusalem who specializes in using
                     mathematical and computational modeling—including stochastic simulations and network theory—to solve
                     intricate biological challenges. His research spans the evolution of self-incompatibility
                     systems, gene regulatory networks, disease modeling, cell fate decisions, and complex
                     systems.
                 </p>
                 <p>
-                    Currently, he is investigating the evolutionary mechanisms of S-RNase-based collaborative
+                    Currently, he is investigating the evolutionary mechanism of S-RNase-based collaborative
                     non-self recognition (CNSR) type of self-incompatibility in plants.
                 </p>
             </div>
@@ -822,7 +830,7 @@
                 <div class="research-text">
                     <p class="justified-text"><strong>How structure shapes the allele diversity in self-incompatible
                             plants</strong><br>We study the impact of the structure of the self-incompatibility system
-                        on the allele diversity in self-incompatible plants. [in preparation]<br></p>
+                        on the allele diversity in self-incompatible plants. [on going]<br></p>
                 </div>
                 <div class="research-figure">
                     <!-- <div class="img-placeholder"> -->
@@ -1080,7 +1088,9 @@
                 <div class="timeline-date">Apr 2022 - Present</div>
                 <div><strong>Postdoctoral Fellow</strong><br>Hebrew University of Jerusalem, Israel<br>Topic: Evolution
                     of S-RNase-based self-incompatibility in the collaborative non-self recognition (CNSR) system in the
-                    structured and panmictic populations</div>
+                    structured and panmictic populations<br>Advisor: <a
+                        href="https://tamarfriedlander.wixsite.com/friedlander-lab" target="_blank"><span
+                            style="color: rgb(23, 7, 242);">Dr. Tamar Friedlander</span></a></div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">Jun 2018 - Dec 2021</div>
@@ -1105,24 +1115,30 @@
 
             <h3>Education</h3>
             <div class="timeline-item">
-                <div class="timeline-date">2016 - 2021</div>
+                <div class="timeline-date">Jun 2016 - Dec 2021</div>
                 <div><strong>PhD Physics - Computational Biology and Bioinformatics</strong><br>Jawaharlal Nehru
                     University, New Delhi<br>Title: Modeling Molecular and Cellular-level Interactions in Biological
-                    Systems
+                    Systems<br>Advisor: <a href="https://ramramaswamy.org/" target="_blank"><span
+                            style="color: rgb(23, 7, 242);">Prof.
+                            Ramakrishna Ramaswamy</span></a> & <a href="http://ccbb.jnu.ac.in/brojen/index.php"
+                        target="_blank"><span style="color: rgb(23, 7, 242);">Prof. R. K. Brojen
+                            Singh</span></a>
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-date">2015 - 2016</div>
+                <div class="timeline-date">Aug 2015 - Jun 2016</div>
                 <div><strong>Post M.Sc. Computational Biology and Bioinformatics</strong><br>Jawaharlal Nehru
                     University, New Delhi<br>Pre-PhD Course Work (First ranker)</div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-date">2013 - 2015</div>
+                <div class="timeline-date">Jul 2013 - Jun 2015</div>
                 <div><strong>M.Sc. Physics</strong><br>Central University of Rajasthan, Ajmer<br>Title: Study of
-                    Bio-Physical Properties of Neurons, Modeling and Synchronization.</div>
+                    Bio-Physical Properties of Neurons, Modeling and Synchronization<br>Advisor: <a
+                        href="https://sites.google.com/site/umeshkanta/home" target="_blank"><span
+                            style="color: rgb(23, 7, 242);">Dr. Thounaojam Umeshkanta Singh</span></a></div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-date">2010 - 2013</div>
+                <div class="timeline-date"> Jul 2010 - Jun 2013</div>
                 <div><strong>B.Sc. Physics, Mathematics, and Chemistry</strong><br>University of Rajasthan, Jaipur
                 </div>
             </div>
@@ -1169,7 +1185,7 @@
                         href="https://www.sciencedirect.com/science/article/pii/S2589004221011676"
                         target="_blank"><em><span style="color: rgb(242, 7, 226);">iScience</span></em></a> 24(10)
                     (2021). [<span style="color: rgb(88, 31, 219);"><strong>*
-                            Correspondence</strong></span>]</li>
+                            correspondence</strong></span>]</li>
                 <li class="pub-item"><strong>Amit Jangid</strong>, M. Z. Malik, R. Ramaswamy and R. K. Brojen Singh.
                     Transition and identification of pathological states in p53 dynamics for therapeutic intervention.
                     <a href="https://www.nature.com/articles/s41598-021-82054-1" target="_blank"><em><span
@@ -1283,37 +1299,41 @@
         </div>
 
         <div id="scripts" class="tab-content">
-            <h2 class="section-title">Python scripts</h2>
-            <!-- <h3>Python Scripts</h3> -->
-            <h3 style="margin-top: 20px; margin-bottom: 0;">Project: CNSR mechanism in S-RNase-based
-                self-incompatibility system in plants</h3>
-            <p style="margin-top: 0;">Following Python scripts are common for the collaborative non-self recognition
-                (CNSR) mechanism in S-RNase-based self-incompatibility (SI) system in plants.</p>
-
-            <p style="margin-top: 20px;"><strong>Initialization</strong><br>
-                This script generates the initial population of self-incompatible haplotypes. There are 10 distinct
-                haplotypes and each haplotype has 1 RNase and 9 SLFs.</p>
-
-            <div class="code-container" data-src="scripts/cnsr_diploid_common/initial_prior.py">
-                <div class="code-header">
-                    <span class="code-title">initial_prior.py</span>
-                    <div class="code-controls">
-                        <button class="control-btn" onclick="copyCode(this)">Copy code</button>
-                        <button class="control-btn" onclick="toggleCode(this)">Expand</button>
-                    </div>
-                </div>
-                <div class="code-content" id="code-testing_funs">
-                    <pre><code class="language-python">Click Expand to load script...</code></pre>
-                </div>
-                <div class="code-footer">
-                    <button class="control-btn" onclick="copyCode(this)">Copy code</button>
-                    <button class="control-btn" onclick="toggleCode(this)">Collapse</button>
-                </div>
+            <h2 class="section-title">Scripts/Links</h2>
+            <!-- <h3>Scripts/Links</h3> -->
+            <h3 style="margin-top: 20px; margin-bottom: 0;">Evolution of S-RNase-based self-incompatibility in the
+                collaborative non-self recognition (CNSR) system in the structured and panmictic populations.</h3>
+            <div class="indent-section">
+                <p style="margin-top: 0;">Following Python scripts are common for the collaborative non-self recognition
+                    (CNSR) mechanism in S-RNase-based self-incompatibility (SI) system in plants.</p>
             </div>
 
-            <p style="margin-top: 30px;"><strong>Interaction</strong><br>
-                After initializing the population, we run a stochastic simulation to observe how traits
-                evolve over many generations. Here is the demo simulation logic:</p>
+            <div class="indent-section">
+                <p style="margin-top: 20px;"><strong>Initialization</strong><br>
+                    This script generates the initial population of self-incompatible haplotypes. There are 10
+                    distinct haplotypes and each haplotype has 1 RNase and 9 SLFs.</p>
+
+                <div class="code-container" data-src="scripts/cnsr_diploid_common/initial_prior.py">
+                    <div class="code-header">
+                        <span class="code-title">initial_prior.py</span>
+                        <div class="code-controls">
+                            <button class="control-btn" onclick="copyCode(this)">Copy code</button>
+                            <button class="control-btn" onclick="toggleCode(this)">Expand</button>
+                        </div>
+                    </div>
+                    <div class="code-content" id="code-testing_funs">
+                        <pre><code class="language-python">Click Expand to load script...</code></pre>
+                    </div>
+                    <div class="code-footer">
+                        <button class="control-btn" onclick="copyCode(this)">Copy code</button>
+                        <button class="control-btn" onclick="toggleCode(this)">Collapse</button>
+                    </div>
+                </div>
+
+                <p style="margin-top: 30px;"><strong>Interaction</strong><br>
+                    After initializing the population, we run a stochastic simulation to observe how traits
+                    evolve over many generations.</p>
+            </div>
 
             <!-- <div class="code-container" data-src="scripts/cnsr_diploid_common/initial_prior.py">
                 <div class="code-header">
@@ -1330,27 +1350,37 @@
 
             <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
-            <h3 style="margin-top: 20px; margin-bottom: 0;">Project: Switching mechanism in plant mating modes</h3>
-            <p style="margin-top: 0;">This project explores the transitions among three different plant mating modes:
-                self-compatible (SC), self-incompatible (SI), and mixture of both, and the dynamics and stability
-                of mixed-mating states.</p>
+            <h3 style="margin-top: 20px; margin-bottom: 0;">Volatile but persistent co-existence of
+                self-compatibility and self-incompatibility in plants.</h3>
+            <div class="indent-section">
+                <p style="margin-top: 0;">This project explores the transitions among three different plant mating
+                    modes:
+                    self-compatible (SC), self-incompatible (SI), and mixture of both, and the dynamics and stability
+                    of mixed-mating states.</p>
+            </div>
+
+            <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+
+            <h3 style="margin-top: 20px; margin-bottom: 0;">Reconciling conflicting selection pressures in the
+                plant collaborative non-self recognition self-incompatibility system.</h3>
+            <div class="indent-section">
+                <p style="margin-top: 0;">This project investigates how self-incompatibility systems in plants evolve
+                    under conflicting pressures to specifically identify partners while avoiding self-compatibility.</p>
+            </div>
 
 
             <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
-            <h3 style="margin-top: 20px; margin-bottom: 0;">Project: Reconciling conflicting selection pressures</h3>
-            <p style="margin-top: 0;">This project investigates how self-incompatibility systems in plants evolve under
-                conflicting pressures to specifically identify partners while avoiding self-compatibility.</p>
-
-
-            <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
-
-            <h3 style="margin-top: 20px; margin-bottom: 0;">Project: Evolution of small protein-protein interaction
-                networks</h3>
-            <p style="margin-top: 0;">This project explores how biological networks expand and shrink over time by
-                incorporating interaction promiscuity and multiple protein partners.</p>
+            <h3 style="margin-top: 20px; margin-bottom: 0;">The role of promiscuous molecular recognition in
+                the evolution of RNase-based self-incompatibility in plants.</h3>
+            <div class="indent-section">
+                <p style="margin-top: 0;">This project explores how biological networks expand and shrink over time
+                    by
+                    incorporating interaction promiscuity and multiple protein partners.</p>
+            </div>
 
         </div>
+
 
         <div id="contact" class="tab-content">
             <h2 class="section-title">Contact</h2>
@@ -1374,17 +1404,16 @@
             </div>
         </div>
 
-    </div>
 
-    <footer>
-        <div class="container">
-            <!-- &copy; 2026 Amit Jangid <br> -->
-            <!-- The Robert H. Smith Faculty of Agriculture, Food and Environment, Rehovot, Israel. -->
-        </div>
-    </footer>
+        <footer>
+            <div class="container">
+                <!-- &copy; 2026 Amit Jangid <br> -->
+                <!-- The Robert H. Smith Faculty of Agriculture, Food and Environment, Rehovot, Israel. -->
+            </div>
+        </footer>
 
 
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 
 </html>
