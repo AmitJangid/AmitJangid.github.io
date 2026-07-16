@@ -295,6 +295,49 @@
             margin-bottom: 10px;
         }
 
+        .list-item em {
+            color: var(--highlight);
+        }
+
+        .abstract-btn {
+            background: none;
+            border: 1px solid var(--highlight);
+            color: var(--highlight);
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 5px;
+            font-family: inherit;
+            display: inline-block;
+        }
+
+        .abstract-btn:hover {
+            background-color: var(--highlight);
+            color: var(--white);
+        }
+
+        .view-abstract-btn {
+            border-color: #000;
+            color: #000;
+        }
+
+        .view-abstract-btn:hover {
+            background-color: #000;
+            color: var(--white);
+        }
+
+        .abstract-content {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: var(--bg-light);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
         .highlight-award {
             background-color: #fffcf0;
             border-left: 3px solid var(--gold);
@@ -305,6 +348,14 @@
             margin-bottom: 20px;
             padding-left: 10px;
             border-left: 3px solid #ddd;
+        }
+
+        .pub-title {
+            /* color: var(--highlight); */
+            color: var(--black);
+            font-size: 1.10rem;
+            font-style: normal;
+            font-weight: bold;
         }
 
         /* --- CONTACT --- */
@@ -344,6 +395,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             aspect-ratio: 16 / 7;
             background: #000;
+            cursor: pointer;
         }
 
         .carousel-track {
@@ -460,6 +512,17 @@
                 width: 100%;
                 min-width: auto;
             }
+
+            .about-layout {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .about-photo-container {
+                width: 220px;
+                min-width: auto;
+            }
         }
 
         /* --- CODE BLOCKS (SCRIPTS) --- */
@@ -553,6 +616,36 @@
             padding-left: 20px;
             margin-bottom: 20px;
         }
+
+        /* --- ABOUT TAB COLUMN LAYOUT --- */
+        .about-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .about-text {
+            flex: 3;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .about-text p:first-child {
+            margin-top: 0;
+        }
+
+        .about-photo-container {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .about-photo {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            display: block;
+        }
     </style>
     <script>
         window.MathJax = {
@@ -637,6 +730,20 @@
                 }, 2000);
             });
         }
+
+        function toggleAbstract(btn) {
+            const listItem = btn.closest('.list-item');
+            const content = listItem.querySelector('.abstract-content');
+            const viewBtn = listItem.querySelector('.view-abstract-btn');
+
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                viewBtn.style.display = 'none';
+            } else {
+                content.style.display = 'none';
+                viewBtn.style.display = 'inline-block';
+            }
+        }
     </script>
     <script>
         function openTab(tabName) {
@@ -696,7 +803,7 @@
             <h1>Amit Jangid, PhD</h1>
             <p class="hero-subtitle">
                 Postdoctoral Fellow, Hebrew University of Jerusalem, Israel<br>
-                [QSP Modeler | Mechanistic Digital Twin Expert | Computational Biophysicist]
+                [Quantitative Systems Modeler | Mechanistic Digital Twin Expert | Computational Biophysicist]
             </p>
             <div class="social-links">
                 <a href="https://orcid.org/0000-0002-0888-6462" target="_blank">ORCID</a> |
@@ -762,29 +869,49 @@
 
             <script>
                 // Carousel Logic
-                let currentSlide = 0;
                 const track = document.getElementById('carouselTrack');
                 const dotsContainer = document.getElementById('carouselDots');
                 const slides = document.querySelectorAll('.carousel-slide');
                 const totalSlides = slides.length;
+                let currentSlide = 1; // Start at 1 because of the prepended clone
+                let isTransitioning = false;
 
-                // Create dots
+                // Clone first and last slides
+                const firstClone = slides[0].cloneNode(true);
+                const lastClone = slides[totalSlides - 1].cloneNode(true);
+
+                // Append and prepend clones
+                track.appendChild(firstClone);
+                track.insertBefore(lastClone, slides[0]);
+
+                // Initial position showing Slide 1
+                track.style.transition = 'none';
+                track.style.transform = `translateX(-100%)`;
+                // Force layout reflow
+                track.offsetHeight;
+                track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                // Create dots (only for original slides)
                 slides.forEach((_, i) => {
                     const dot = document.createElement('div');
                     dot.classList.add('dot');
                     if (i === 0) dot.classList.add('active');
-                    dot.onclick = () => goToSlide(i);
+                    dot.onclick = () => goToSlide(i + 1);
                     dotsContainer.appendChild(dot);
                 });
 
                 function updateDots() {
+                    const dotIndex = (currentSlide - 1 + totalSlides) % totalSlides;
                     document.querySelectorAll('.dot').forEach((dot, i) => {
-                        dot.classList.toggle('active', i === currentSlide);
+                        dot.classList.toggle('active', i === dotIndex);
                     });
                 }
 
                 function goToSlide(n) {
-                    currentSlide = (n + totalSlides) % totalSlides;
+                    if (isTransitioning) return;
+                    isTransitioning = true;
+                    currentSlide = n;
+                    track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
                     track.style.transform = `translateX(-${currentSlide * 100}%)`;
                     updateDots();
                 }
@@ -793,6 +920,20 @@
                     goToSlide(currentSlide + step);
                 }
 
+                // Handle seamless jump at the end of the transition
+                track.addEventListener('transitionend', () => {
+                    isTransitioning = false;
+                    if (currentSlide === 0) {
+                        track.style.transition = 'none';
+                        currentSlide = totalSlides;
+                        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    } else if (currentSlide === totalSlides + 1) {
+                        track.style.transition = 'none';
+                        currentSlide = 1;
+                        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    }
+                });
+
                 // Auto slide
                 let autoSlideInterval = setInterval(() => moveSlide(1), 5000);
 
@@ -800,24 +941,47 @@
                 const container = document.querySelector('.carousel-container');
                 container.onmouseenter = () => clearInterval(autoSlideInterval);
                 container.onmouseleave = () => autoSlideInterval = setInterval(() => moveSlide(1), 5000);
+
+                // Click to navigate (Left/Right half of container)
+                container.addEventListener('click', (e) => {
+                    // Ignore clicks on buttons and dots
+                    if (e.target.closest('.carousel-btn') || e.target.closest('.carousel-dots') || e.target.closest('.dot')) {
+                        return;
+                    }
+                    const rect = container.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    if (clickX > rect.width / 2) {
+                        moveSlide(1);
+                    } else {
+                        moveSlide(-1);
+                    }
+                });
             </script>
 
             <h2 class="section-title">About</h2>
-            <div style="font-size: 1.1rem; text-align: justify;">
-                <p>
-                    Amit Jangid is a postdoctoral fellow in <a
-                        href="https://tamarfriedlander.wixsite.com/friedlander-lab" target="_blank"><span
-                            style="color: rgb(23, 7, 242);">Dr. Tamar Friedlander's</span></a> group at the
-                    Hebrew University of Jerusalem who specializes in using
-                    mathematical and computational modeling—including stochastic simulations and network theory—to solve
-                    intricate biological challenges. His research spans the evolution of self-incompatibility
-                    systems, gene regulatory networks, disease modeling, cell fate decisions, and complex
-                    systems.
-                </p>
-                <p>
-                    Currently, he is investigating the evolutionary mechanism of S-RNase-based collaborative
-                    non-self recognition (CNSR) type of self-incompatibility in plants.
-                </p>
+            <div class="about-layout">
+                <div class="about-photo-container">
+                    <img src="profile/profile.png" alt="Amit Jangid, PhD" class="about-photo">
+                </div>
+                <div class="about-text">
+                    <p>
+                        Amit Jangid is a postdoctoral fellow in <a
+                            href="https://tamarfriedlander.wixsite.com/friedlander-lab" target="_blank"><span
+                                style="color: rgb(23, 7, 242);">Dr. Tamar Friedlander's</span></a> group at the
+                        Hebrew University of Jerusalem who specializes in using
+                        mathematical and computational modeling—including stochastic simulations and network theory—to
+                        solve intricate biological challenges. His research spans the evolution of self-incompatibility
+                        systems, gene regulatory networks, disease modeling, cell fate decisions, and complex
+                        systems.
+                        <!-- My research applies the principles of complex systems and quantitative biology to understand
+                        systems biology; specifically, I use population genetics and the modeling of gene regulatory
+                        networks to study the evolutionary dynamics of self-incompatibility in plants. -->
+                    </p>
+                    <p>
+                        Currently, he is investigating the evolutionary mechanism of S-RNase-based collaborative
+                        non-self recognition (CNSR) type of self-incompatibility in plants.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -830,7 +994,7 @@
                 <div class="research-text">
                     <p class="justified-text"><strong>How structure shapes the allele diversity in self-incompatible
                             plants</strong><br>We study the impact of the structure of the self-incompatibility system
-                        on the allele diversity in self-incompatible plants. [ongoing]<br></p>
+                        on the allele diversity in self-incompatible plants. [on going]<br></p>
                 </div>
                 <div class="research-figure">
                     <!-- <div class="img-placeholder"> -->
@@ -857,7 +1021,7 @@
                         rather than a static balance. Furthermore, we find that evolutionary transitions between these
                         modes are often reversible, offering a dynamic new framework for understanding the stability of
                         diverse plant reproductive strategies. [Jangid A. et al. <a
-                            href="https://www.biorxiv.org/content/10.1101/2025.11.30.691363v1" target="_blank"><em><span
+                            href="https://www.biorxiv.org/content/10.1101/2025.11.30.691363v2" target="_blank"><em><span
                                     style="color: rgb(242, 7, 226);">bioRxiv</span></em></a> (2025)] <br></p>
                 </div>
                 <div class="research-figure">
@@ -1150,53 +1314,66 @@
             <h2 class="section-title">Publications</h2>
             <h3></h3>
             <ol reversed>
-                <li class="pub-item"><strong>Amit Jangid</strong>, O. N. Feldheim and T. Friedlander. Volatile but
-                    persistent co-existence of self-compatibility and self-incompatibility in plants. <a
-                        href="https://www.biorxiv.org/content/10.1101/2025.11.30.691363v1" target="_blank"><em><span
+                <li class="pub-item"><span class="pub-title">Volatile but
+                        persistent co-existence of self-compatibility and self-incompatibility in plants.</span><br>
+                    <strong>Amit Jangid</strong>, O. N. Feldheim and T. Friedlander. <a
+                        href="https://www.biorxiv.org/content/10.1101/2025.11.30.691363v2" target="_blank"><em><span
                                 style="color: rgb(242, 7, 226);">bioRxiv</span></em></a> (2025). [ under review <em>PRX
-                        Life</em> ]</li>
-                <li class="pub-item"><strong>Amit Jangid</strong>, K. Erez, O. N. Feldheim and T. Friedlander.
-                    Reconciling conflicting selection pressures in the plant collaborative non-self recognition
-                    self-incompatibility system. <a
+                        Life</em> ]
+                </li>
+                <li class="pub-item">
+                    <span class="pub-title">Reconciling conflicting selection pressures in the plant collaborative
+                        non-self recognition self-incompatibility system.</span> <br> <strong>Amit Jangid</strong>, K.
+                    Erez, O. N. Feldheim and T. Friedlander. <a
                         href="https://journals.aps.org/prresearch/abstract/10.1103/z2qq-t55b" target="_blank"><em><span
                                 style="color: rgb(242, 7, 226);">Phys.
-                                Rev. Res.</span></em></a> 7(3) (2025).</li>
-                <li class="pub-item">M. Z. Malik, M. Dashti, <strong>Amit Jangid</strong>... T. A. Thanaraj. Complex
-                    p53 dynamics regulated by miR-125b in cellular responses to reactive oxidative stress and DNA
-                    damage. <a href="https://academic.oup.com/bib/article/26/1/bbae706/7958309?login=false"
+                                Rev. Res.</span></em></a> 7(3) (2025).
+                </li>
+                <li class="pub-item"><span class="pub-title">Complex p53 dynamics regulated by miR-125b in cellular
+                        responses to reactive oxidative stress and DNA damage.</span><br>M. Z. Malik, M. Dashti,
+                    <strong>Amit Jangid</strong> ... T. A. Thanaraj. <a
+                        href="https://academic.oup.com/bib/article/26/1/bbae706/7958309?login=false"
                         target="_blank"><em><span style="color: rgb(242, 7, 226);">Brief. Bioinform.</span></em></a>
-                    26(1) (2025).</li>
-                <li class="pub-item">K. Erez*, <strong>Amit Jangid*</strong>, O. N. Feldheim and T. Friedlander. The
-                    role of promiscuous molecular recognition in the evolution of RNase-based self-incompatibility in
-                    plants. <a href="https://www.nature.com/articles/s41467-024-49163-7" target="_blank"><em><span
-                                style="color: rgb(242, 7, 226);">Nat.
+                    26(1) (2025).
+                </li>
+                <li class="pub-item"><span class="pub-title">The role of promiscuous molecular recognition in the
+                        evolution of RNase-based
+                        self-incompatibility in plants.</span><br>K. Erez*, <strong>Amit Jangid*</strong>, O. N.
+                    Feldheim
+                    and T. Friedlander. <a href="https://www.nature.com/articles/s41467-024-49163-7"
+                        target="_blank"><em><span style="color: rgb(242, 7, 226);">Nat.
                                 Commun.</span></em></a> 15(1) (2024). [<span style="color: rgb(88, 31, 219);"><strong>*
                             co-first
                             author</strong></span>]</li>
-                <li class="pub-item">R. Pandey, <strong>Amit Jangid</strong>, R. G. Vinjamuri and R. Ramaswamy.
-                    Modeling of indirect cell-cell interaction networks mediated by IFN-$\gamma$/IL-4 cytokines involved
-                    in
-                    atopic dermatitis. <a
+                <li class="pub-item"><span class="pub-title">Modeling of indirect cell-cell interaction networks
+                        mediated by IFN-$\gamma$/IL-4 cytokines involved in atopic dermatitis.</span><br>R. Pandey,
+                    <strong>Amit Jangid</strong>, R. G. Vinjamuri and R. Ramaswamy. <a
                         href="https://www.sciencedirect.com/science/article/abs/pii/S002251932200282X?via%3Dihub"
                         target="_blank"><em><span style="color: rgb(242, 7, 226);">Theor. Biol.</span></em></a> 556
-                    (2023).</li>
-                <li class="pub-item"><strong>Amit Jangid*</strong>, S. Selvarajan and R. Ramaswamy. A stochastic model
-                    of homeostasis: the roles of noise and nuclear positioning in deciding cell fate. <a
+                    (2023).
+                </li>
+                <li class="pub-item"><span class="pub-title">A stochastic model of homeostasis: the roles of noise and
+                        nuclear positioning in deciding cell fate.</span><br><strong>Amit Jangid*</strong>, S.
+                    Selvarajan and R. Ramaswamy. <a
                         href="https://www.sciencedirect.com/science/article/pii/S2589004221011676"
                         target="_blank"><em><span style="color: rgb(242, 7, 226);">iScience</span></em></a> 24(10)
                     (2021). [<span style="color: rgb(88, 31, 219);"><strong>*
                             correspondence</strong></span>]</li>
-                <li class="pub-item"><strong>Amit Jangid</strong>, M. Z. Malik, R. Ramaswamy and R. K. Brojen Singh.
-                    Transition and identification of pathological states in p53 dynamics for therapeutic intervention.
-                    <a href="https://www.nature.com/articles/s41598-021-82054-1" target="_blank"><em><span
-                                style="color: rgb(242, 7, 226);">Sci. Rep.</span></em></a> 11(1) (2021).
+                <li class="pub-item"><span class="pub-title">Transition and identification of pathological states in p53
+                        dynamics for therapeutic intervention.</span><br><strong>Amit Jangid</strong>, M. Z. Malik, R.
+                    Ramaswamy and R. K. Brojen Singh. <a href="https://www.nature.com/articles/s41598-021-82054-1"
+                        target="_blank"><em><span style="color: rgb(242, 7, 226);">Sci. Rep.</span></em></a> 11(1)
+                    (2021).
                 </li>
             </ol>
-            <div class="pub-item"><strong>Amit Jangid*</strong>, J. Singha and R. Ramaswamy. Collective dynamics of
-                NF-$\kappa$B ensembles in a coupled diffusive environment driven by TNF-$\alpha$. (in preparation).
+            <div class="pub-item"><strong>Amit Jangid*</strong>, J. Singha and R. Ramaswamy. <span
+                    class="pub-title">Collective dynamics of
+                    NF-$\kappa$B ensembles in a coupled diffusive environment driven by TNF-$\alpha$.</span> (in
+                preparation).
             </div>
-            <div class="pub-item"><strong>Amit Jangid</strong> and U. Singh. Dynamics of different biological
-                oscillators coupled via delta notch signal. (in preparation).</div>
+            <div class="pub-item"><strong>Amit Jangid</strong> and U. Singh. <span class="pub-title">Dynamics of
+                    different biological
+                    oscillators coupled via delta notch signal.</span> (in preparation).</div>
         </div>
 
         <div id="talks" class="tab-content">
@@ -1204,54 +1381,221 @@
 
             <h3>Talks</h3>
             <ol reversed>
-                <li class="list-item">'Collective behavior of locally coupled NF-$\kappa$B oscillators' 3rd Symposium on
-                    Complex Biodynamics & Networks, Matrix Biopolis, Singapore, December 10-12, 2018.</li>
+                <li class="list-item"><em>"Collective behavior of locally coupled NF-$\kappa$B oscillators"</em><br>'3rd
+                    Symposium on Complex Biodynamics & Networks' — Matrix Biopolis, Singapore (December 10-12, 2018).
+                </li>
             </ol>
             <h3>Posters & Flash Talks</h3>
             <ol reversed>
-                <li class="list-item">'Volatile but persistent co-existence of self-compatibility and
-                    self-incompatibility in plants' ISEB, Ben-Gurion University of the Negev, Israel, February 10-11,
-                    2026.</li>
-                <li class="list-item">Flash talk and poster 'A phase transition between plant mating modes' EMBO |
-                    EMBL Symposium: Theory and concepts in biology, Heidelberg, Germany, May 06 - 09, 2025.</li>
-                <li class="list-item">'Plant collaborative non-self recognition self-incompatibility systems:
-                    facilitating conditions, evolutionary stability, breakdowns, and recovery' ISEB, Hebrew University
-                    of Jerusalem, Israel, September 22-23, 2024.</li>
-                <li class="list-item">Flash talk and poster 'Phase transition and evolutionary emergence of
-                    self-incompatibility in the non-self recognition system in plants' BioSoft Day Symposium #5, June
-                    27, 2024, Tel Aviv University, Israel.</li>
-                <li class="list-item">'The role of promiscuous molecular recognition in the evolution of RNase-based
-                    self-incompatibility in plants' SMEEB, May 28-31, 2024, L'Aquila, Italy.</li>
-                <li class="list-item">'To interact or not to interact: a toy model for the evolution of the
-                    protein-protein interaction network in RNase-based self-incompatibility system' ISEB, University of
-                    Haifa, Israel, April 02-03, 2023.</li>
-                <li class="list-item">'A stochastic approach to cell fate decision and homeostasis: symmetric and
-                    asymmetric cell division' ECMTB, Heidelberg, Germany, September 19-23, 2022. (online)</li>
-                <li class="list-item">'Cancer dynamics: Identification of states for therapeutic intervention'
-                    Conference on Nonlinear Systems and Dynamics (CNSD), IIT-Kanpur, December 12-15, 2019. (funded by J.
-                    C.
-                    Bose Fellowship, DST India)</li>
-                <li class="list-item">'Effect of noise in repeated games' at Conference on Nonlinear Systems and
-                    Dynamics
-                    (CNSD), Jawaharlal Nehru University, New Delhi, October 11 - 14, 2018.</li>
-                <li class="list-item">'Networks and sub-networks in atopic dermatitis' International Center for
-                    Theoretical Physics, Trieste, Italy, February 19 - March 16, 2018. (funded by ICTP Trieste)</li>
+                <li class="list-item"><em>"From Self-Incompatibility to Mixed Mating: Evolutionary transitions between
+                        mating modes in plants"</em><br>'The Annual Meeting of the Society for Molecular Biology &
+                    Evolution
+                    (SMBE 2026)' — Copenhagen, Denmark (June 28 - July 02, 2026).
+                    <br><button class="abstract-btn view-abstract-btn" onclick="toggleAbstract(this)">View
+                        abstract</button>
+                    <div class="abstract-content" style="display: none;">
+                        Hermaphroditic plants employ diverse mating strategies, including self- and cross-fertilization
+                        or their mixture. Cross-fertilization is often ensured by ‘self-incompatibility’ (SI), genetic
+                        mechanisms rejecting self-pollen and allowing fertilization by nonself-pollen. Self/nonself
+                        discrimination relies on molecular recognition between two families of highly diverse proteins,
+                        encoded at the plant’s S-locus and expressed in its reproductive organs. SI could breakdown
+                        following mutations, yielding ‘self-compatible’ (SC) individuals capable of self-fertilization.
+                        Transitions between these mating modes are considered frequent, and several species display SI,
+                        SC or their mixture across different populations. Despite the ubiquity of mixed-mating
+                        populations, the evolutionary origins and dynamic stability of mixed mating remain poorly
+                        understood.
+                        We theoretically study the transitions between SI and SC mating modes, their reversibility and
+                        dynamic stability. We construct a model linking the S-locus architecture to the plant mating
+                        behavior and use population-level stochastic simulations to study its evolutionary dynamics. We
+                        study the effects of two key factors: promiscuity in molecular recognition underlying SI and the
+                        inbreeding depression, which penalizes self-compatibility.
+                        We reveal three mating regimes: <em>complete SI</em>, <em>complete SC</em>, and <em>mixture</em>
+                        combining both. The mixed regime, described here for the first time, exhibits long-lasting
+                        fluctuations in the abundances of SI and SC individuals, and does not relax to either ‘pure’
+                        mating strategy. Lastly, we find that transitions between mating modes could be reversible.
+                        The plant mating mode is tightly linked to its adaptive potential under environmental change.
+                        Thus, clarifying the factors favoring either mating mode provides insights relevant to
+                        conservation in the face of climatic shifts.
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="abstract-btn" onclick="toggleAbstract(this)">Collapse</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item"><em>"Volatile but persistent co-existence of self-compatibility and
+                        self-incompatibility in plants"</em><br>'Israeli Society for Evolutionary Biology (ISEB)'
+                    — Ben-Gurion University of the Negev, Israel (February
+                    10-11, 2026).
+                </li>
+                <li class="list-item"><em>"A phase transition between plant mating modes"</em> (Flash talk)<br>'EMBO |
+                    EMBL Symposium: Theory and concepts in biology' — Heidelberg, Germany (May 06 - 09, 2025).
+                    <br><button class="abstract-btn view-abstract-btn" onclick="toggleAbstract(this)">View
+                        abstract</button>
+                    <div class="abstract-content" style="display: none;">
+                        Plants employ diverse mating strategies, including self- and cross-fertilization or their
+                        mixture. Despite the ubiquity of mixed-mating – the use of both self- and cross-fertilization in
+                        the same population – its evolutionary sources and dynamic stability remain elusive. Here we
+                        study self-incompatibility, where self-fertilization is disabled by molecular recognition, and
+                        enabled if mutations disrupt this recognition. Using population-level stochastic simulations, we
+                        model the effects of two main parameters on the prevailing mating mode: promiscuity of molecular
+                        recognition and inbreeding depression – penalizing self-compatibility. We reveal a phase diagram
+                        with three regimes: <em>complete self-incompatibility</em> (SI), <em>complete
+                            self-compatibility</em> (SC), and a <em>mixture</em> combining both. The latter mixed mode,
+                        described here for the first time, exhibits vigorous, non-decaying fluctuations in the
+                        proportions of individuals occupying either mating mode. Finally, we find that transitions
+                        between mating modes are often reversible. This study offers new insight into the evolutionary
+                        dynamics of plant reproductive systems.
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="abstract-btn" onclick="toggleAbstract(this)">Collapse</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item"><em>"Plant collaborative non-self recognition self-incompatibility systems:
+                        facilitating conditions, evolutionary stability, breakdowns, and recovery"</em><br>'Israeli
+                    Society for Evolutionary Biology (ISEB)' — Hebrew University of Jerusalem, Israel (September 22-23,
+                    2024).
+                    <br><button class="abstract-btn view-abstract-btn" onclick="toggleAbstract(this)">View
+                        abstract</button>
+                    <div class="abstract-content" style="display: none;">
+                        Self-incompatibility evolved to avoid self-fertilization among hermaphroditic plants, which
+                        could lead to inviable offspring, (‘inbreeding depression’). Self-incompatibility relies on
+                        specific molecular recognition between highly diverse proteins of two families: female and male
+                        determinants, such that the combination of genes an individual possesses determines its mating
+                        partners. While self-incompatibility has the benefit of avoiding inbreeding depression, it bears
+                        the cost of limiting the number of mating partners and could break down under various mutations
+                        conferring self-compatibility. Indeed, population surveys found self-compatible genotypes and
+                        evolutionary transitions between self-compatibility and self-incompatibility are thought to
+                        occur. Here we focus on the plant collaborative-non-self recognition self-incompatibility
+                        system, found in the Rosaceae and Solanaceae families. We study the evolutionary conditions
+                        facilitating the emergence and stability of self-incompatibility in this system and the
+                        conditions under which it breaks down. We construct a novel theoretical framework, that
+                        crucially affords interaction promiscuity and multiple distinct partners per protein, as is
+                        seen in empirical findings. We find three behavioral regimes of the system. In the first regime,
+                        we demonstrate spontaneous self-organization of the population into distinct 'classes' with full
+                        between-class compatibility and a dynamic long-term balance between class emergence and decay.
+                        In the second regime, the population is fully self-compatible, namely all individuals are
+                        capable of self-fertilization. In between, we find a third <em>mixed regime</em> with both
+                        self-compatible and self-incompatible individuals in dynamically unstable proportions. The
+                        choice of either regime depends on the extent of promiscuity and inbreeding depression, and
+                        hence in most the regime the transitions to self-compatibility are reversible. Our work
+                        highlights the important evolutionary role played by promiscuous molecular recognition.
+                        Promiscuity was found in additional systems suggesting that our framework could be more broadly
+                        applicable.
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="abstract-btn" onclick="toggleAbstract(this)">Collapse</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item"><em>"Phase transition and evolutionary emergence of self-incompatibility in the
+                        non-self recognition system in plants"</em> (Flash talk)<br>'BioSoft Day Symposium
+                    #5' — Tel Aviv University, Israel (June 27, 2024).
+                </li>
+                <li class="list-item"><em>"The role of promiscuous molecular recognition in the evolution of RNase-based
+                        self-incompatibility in plants"</em><br>'Stochastic Models and Experiments in Ecology and
+                    Biology (SMEEB)' — L'Aquila, Italy (May 28-31, 2024).
+                </li>
+                <li class="list-item"><em>"To interact or not to interact:<br>a toy model for the evolution of the
+                        protein-protein interaction network in RNase-based self-incompatibility system"</em><br>'Israeli
+                    Society for Evolutionary Biology (ISEB)' — University of Haifa, Israel (April 02-03, 2023).
+                    <br><button class="abstract-btn view-abstract-btn" onclick="toggleAbstract(this)">View
+                        abstract</button>
+                    <div class="abstract-content" style="display: none;">
+                        More than 40% of flowering plant species evolved a self-incompatibility (SI) mechanism to
+                        promote outcrossing and prevent inbreeding. Here we focus on one SI mechanism found in
+                        Solanaceae and Rosaceae families. There, fertilization is conditioned on specific molecular
+                        recognition between highly diverse proteins of two families: RNase (female) and SLF (male).
+                        A male (SLF) should then recognize and fertilize most foreign females (RNases) but not the self
+                        RNase. Both RNase and SLF are highly diverse, but it remains unclear what the likelihood of a
+                        new allele integrating into an existing network is. In this work, we focus on the biophysical
+                        parameter of RNase-SLF interaction threshold energy, determining which proportion of random
+                        alleles interacts. We construct an evolutionary-biophysical model of SI haplotypes, representing
+                        alleles by sequences of amino acids. Fertilization is possible if the SLF-RNase interaction
+                        energy is below the threshold. The haplotypes evolve under a combination of different selection
+                        pressures: avoiding self- while simultaneously maximizing non-self fertilization. Crucially,
+                        our model allows for multiple partners per allele, as known empirically. We then investigate
+                        the effect of the threshold energy on the evolved network and allelic characteristics. We find
+                        that the total allele count, the number of partners per allele, and the amino acid content of
+                        RNase alleles strongly depend on this parameter. By tuning the energy threshold our model
+                        bridges between two extremes, thereby shifting the balance between the two selection pressures:
+                        for a low threshold the interaction between random sequences is rare, hence SLFs mostly evolve
+                        to enhance between-haplotype interactions, whereas, for a high threshold, interactions are
+                        ubiquitous and thus SLFs evolve mostly to avoid within-haplotype interactions. It would be
+                        interesting to study where the actual proteins lie in this range of possibilities.
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="abstract-btn" onclick="toggleAbstract(this)">Collapse</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item"><em>"A stochastic approach to cell fate decision and homeostasis: symmetric and
+                        asymmetric cell division"</em> (online)<br>'The European Conference on Mathematical and
+                    Theoretical Biology (ECMTB)' — Heidelberg, Germany (September 19-23, 2022).
+                    <br><button class="abstract-btn view-abstract-btn" onclick="toggleAbstract(this)">View
+                        abstract</button>
+                    <div class="abstract-content" style="display: none;">
+                        We study a population-based cellular model that starts from a single stem cell that divides
+                        stochastically to give rise to either daughter stem cells or differentiated daughter cells.
+                        There are three main components in the model: nucleus position, the underlying gene-regulatory
+                        network, and stochastic segregation of transcription factors in the daughter cells. The
+                        proportion of self-renewal and differentiated cell lines as a function of the nucleus position
+                        which in turn decides the plane of cleavage is studied. Both nuclear position and noise play an
+                        important role in determining the stem cell genealogies. We have observed both long and short
+                        genealogies in model simulation, and these compare well with experimental results from
+                        neuroblast and B-cell division. Symmetric divisions are observed in apical nuclei, while
+                        asymmetric division occurs when the nucleus is toward the base. In this model, the number of
+                        clones decreases over time, although the average clone size increases.
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="abstract-btn" onclick="toggleAbstract(this)">Collapse</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item"><em>"Cancer dynamics: Identification of states for therapeutic
+                        intervention"</em><br>'Conference on Nonlinear Systems and Dynamics (CNSD)' — IIT-Kanpur
+                    (December 12-15, 2019).
+                    <br><button class="abstract-btn view-abstract-btn" onclick="toggleAbstract(this)">View
+                        abstract</button>
+                    <div class="abstract-content" style="display: none;">
+                        We study a minimal model of the stress-driven p53 regulatory network that includes competition
+                        between active and mutant forms of the tumor-suppressor gene p53. Depending on the nature
+                        of the external stress signal, four distinct dynamical states are observed. These states can be
+                        distinguished by different dynamical properties and correspond to <em>active</em>,
+                        <em>apoptotic</em>, <em>pre-malignant</em> and <em>cancer</em> states. Transitions between
+                        any two of these states are found to be unidirectional and irreversible if the stress signal is
+                        either oscillatory or constant. When the signal decays exponentially, the apoptotic state
+                        vanishes, and for low stress the pre-malignant state is bounded by two critical points,
+                        allowing the system to transition <em>reversibly</em> from the
+                        active to the pre-malignant state. For significantly large stress, the range of the
+                        pre-malignant state expands and the system to the cancerous state which is a stable attractor.
+                        This suggests that identification of the pre-malignant state may be important both for
+                        therapeutic intervention as well as for drug discovery
+                        <div style="margin-top: 10px; text-align: right;">
+                            <button class="abstract-btn" onclick="toggleAbstract(this)">Collapse</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-item"><em>"Effect of noise in repeated games"</em><br>'Conference on Nonlinear Systems
+                    and
+                    Dynamics (CNSD)' — Jawaharlal Nehru University, New Delhi (October 11 - 14, 2018).
+                </li>
+                <li class="list-item"><em>"Networks and sub-networks in atopic dermatitis"</em><br>'International Center
+                    for
+                    Theoretical Physics' — Trieste, Italy (February 19 - March 16, 2018) (funded by ICTP Trieste).
+                </li>
             </ol>
             <h3>Schools & Conferences</h3>
             <ol reversed>
-                <li class="list-item">'Models & Theory in Ecology & Evolution', The Steinhardt Museum of Natural
-                    History,
-                    Israel, November 09, 2025.</li>
-                <li class="list-item">'Populations genomics and systems biology of rapid evolution' Ben-Gurion
-                    University of Negev, Israel, December 18 - 22, 2022.</li>
-                <li class="list-item">'Spring college on the physics of complex systems' International Center for
-                    Theoretical Physics, Trieste, Italy, February 19- March 16, 2018. (funded by ICTP Trieste)</li>
-                <li class="list-item">'Winter school on quantitative systems biology' ICTS, Bangalore, December 04 -
-                    22, 2017. (informal)</li>
-                <li class="list-item">'Econophys-2017 & Asia pacific econophysics conference' Jawaharlal Nehru
-                    University, New Delhi, November 15-18, 2017.</li>
-                <li class="list-item">'Non-linear dynamics with applications in physics, biophysics, engineering and
-                    other fields' Central University of Rajasthan, Ajmer, December 01 - 20, 2014.</li>
+                <li class="list-item"><em>"Models & Theory in Ecology & Evolution"</em><br>'The Steinhardt Museum of
+                    Natural History' — Israel (November 09, 2025).</li>
+                <li class="list-item"><em>"Populations genomics and systems biology of rapid
+                        evolution"</em><br>'Ben-Gurion University of Negev' — Israel (December 18 - 22, 2022).</li>
+                <li class="list-item"><em>"Spring college on the physics of complex systems"</em><br>'International
+                    Center for Theoretical Physics' — Trieste, Italy (February 19 - March 16, 2018) (funded by ICTP
+                    Trieste).</li>
+                <li class="list-item"><em>"Winter school on quantitative systems biology"</em><br>'ICTS' — Bangalore
+                    (December 04 - 22, 2017) (informal).</li>
+                <li class="list-item"><em>"Econophys-2017 & Asia pacific econophysics conference"</em><br>'Jawaharlal
+                    Nehru University' — New Delhi (November 15-18, 2017).</li>
+                <li class="list-item"><em>"Non-linear dynamics with applications in physics, biophysics, engineering
+                        and other fields"</em><br>'Central University of Rajasthan' — Ajmer (December 01 - 20, 2014).
+                </li>
             </ol>
 
             <h3>Peer Review</h3>
@@ -1272,8 +1616,8 @@
             <h2 class="section-title">Awards & Honors</h2>
             <h3></h3>
             <ol reversed>
-                <li class="list-item highlight-award"><strong>Lady Davis Postdoctoral Fellowship</strong> (Oct 2025 - Sep 2026),
-                    Hebrew University of Jerusalem, Israel.</li>
+                <li class="list-item highlight-award"><strong>Lady Davis Postdoctoral Fellowship</strong> (Oct 2025 -
+                    Sep 2026), Hebrew University of Jerusalem, Israel.</li>
                 <li class="list-item highlight-award"><strong>Golda Meir Postdoctoral Fellowship</strong> (Oct 2024 -
                     Sep 2025), Hebrew University of Jerusalem, Israel.</li>
                 <!-- <li class="list-item"><strong>Postdoctoral Fellowship</strong> (2022-Present), Hebrew University of -->
@@ -1283,8 +1627,7 @@
                 <li class="list-item highlight-award"><strong>UGC-SRF (Senior Research Fellow) Scholarship</strong>
                     (Jan 2018 - Dec 2020).</li>
                 <li class=" list-item"><strong>Best presentation award</strong> at the Annual Students Symposium-2017
-                    JNU
-                    New Delhi.</li>
+                    JNU New Delhi.</li>
                 <li class="list-item"><strong>First Ranker</strong> in Pre-PhD examination (2016).</li>
                 <li class="list-item"><strong>GATE-2018 in Physics</strong>, Rank: 1274, Percentile: 90.57.</li>
                 <li class="list-item"><strong>GATE-2016 in Physics</strong>, Rank: 1603, Percentile: 83.82.</li>
@@ -1386,19 +1729,21 @@
             <h2 class="section-title">Contact</h2>
             <h3></h3>
             <div class="contact-box">
-                <p style="font-size: 1.2rem; margin-bottom: 20px;">I am open to collaborations in quantitative
-                    biology.</p>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">I am open to collaborations in<br><br>
+                    Complex systems, Quantitative biology, Systems biology, Population genetics, <br>Gene regulatory
+                    network, Self-incompatibility<br>
+                </p>
 
                 <div class="contact-details">
                     <p><strong>Email:</strong> <a href="mailto:amitjangid050@gmail.com">amitjangid050@gmail.com</a>
                     </p>
                     <!-- <p><strong>Phone:</strong> +972-54-838-5807</p> -->
-                    <hr style="width: 50%; margin: 20px auto; border-top: 1px solid #ddd;">
+                    <hr style="width: 75%; margin: 20px auto; border-top: 1px solid #ddd;">
                     <p><strong>Address:</strong></p>
                     <p>
-                        Room No. 106, Department of Plant Sciences and Genetics<br>
+                        106, Kennedy-Leigh Building C, Plant Sciences and Genetics<br>
                         The Robert H. Smith Faculty of Agriculture, Food and Environment<br>
-                        Hebrew University of Jerusalem, Rehovot, Israel
+                        Hebrew University of Jerusalem, Rehovot - 7610001, Israel
                     </p>
                 </div>
             </div>
